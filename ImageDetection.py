@@ -1,6 +1,8 @@
 import os
 import google.generativeai as genai
 from dotenv import load_dotenv
+from PIL import Image
+import io
 
 # Load environment variables from .env file
 load_dotenv()
@@ -23,14 +25,44 @@ model = genai.GenerativeModel(
   generation_config=generation_config,
 )
 
-chat_session = model.start_chat(
-  history=[
-  ]
-)
+chat_session = model.start_chat(history=[])
 
-#to do: add image to the chat session
-#response = chat_session.send_message(input_file,"Analyze the geometry of the image.")
 
-response = chat_session.send_message("Analyze the geometry of the image.")
+#test string input.
+def TestUserString():
+    userString = input("Enter a question for the AI: ")
+    response = chat_session.send_message(userString)
+    print(response.text)
 
-print(response.text)
+
+#test image input
+def get_image_from_user():
+    """Get an image from the user and prepare it for the API"""
+    image_path = input("Enter the path to your image file: ")  # Prompt the user for the image path, image_path will store it.
+    try:
+        # Open the image using Pillow
+        img = Image.open(image_path)
+        return img
+    except Exception as e:
+        print(f"Error loading image: {e}")
+        return None
+
+def analyze_image_geometry():
+    """Get an image from the user and analyze its geometry"""
+    img = get_image_from_user()
+    if img:
+        # Send the image with a prompt to the chat session
+        response = chat_session.send_message(
+            [img, "Analyze the geometry of the image."]
+        )
+        print(response.text)
+    else:
+        print("No valid image provided.")
+
+# Example usage
+if __name__ == "__main__":
+    print("Gemini Image Analysis Tool")
+    print("--------------------------")
+    TestUserString()
+    analyze_image_geometry()
+    
