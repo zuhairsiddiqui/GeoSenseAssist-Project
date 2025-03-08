@@ -10,7 +10,7 @@ def connect_to_mysql():
         )
         if mydb.is_connected():
             print("Connected to MySQL Database")
-            return conn
+            return mydb
     except mysql.connector.Error as err:
         print(f"Error: {err}")
         return None
