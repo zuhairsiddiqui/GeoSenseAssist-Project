@@ -1,13 +1,22 @@
 import mysql.connector
 
-mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="5L%0me0)s5",
-    database="mydatabase"
-)
+def connect_to_mysql():
+    try:
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="5L%0me0)s5",
+            database="mydatabase"
+        )
+        if mydb.is_connected():
+            print("Connected to MySQL Database")
+            return conn
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        return None
+        
 
-mycursor = mydb.cursor()
+#mycursor = mydb.cursor()
 
 #mycursor.execute("SHOW DATABASES")
 
@@ -22,11 +31,11 @@ mycursor = mydb.cursor()
 
 #sql = "INSERT INTO customers (name, address) VALUES (%s, %s)"
 
-val = [
-    ("John", "Highway 21"),
-    ("Peter", "Apple st 652"),
-    ("Hannah", "Sky st 98"),
-]
+#val = [
+#    ("John", "Highway 21"),
+#    ("Peter", "Apple st 652"),
+#    ("Hannah", "Sky st 98"),
+#]
 
 #mycursor.executemany(sql, val)
 
