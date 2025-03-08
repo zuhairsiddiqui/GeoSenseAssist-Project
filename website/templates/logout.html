@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Logout Confirmation</title>
+    <meta http-equiv="refresh" content="5;url=/"> <!--https://stackoverflow.com/questions/5411538/how-to-redirect-one-html-page-to-another-on-load-->
+    <style> /* wait 5s then redirect */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e3f2fd;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header-bar { /* How to make Login/Signup on the same lvl to the right: https://www.w3schools.com/css/css3_flexbox.asp */
+            width: 100%;
+            background-color: blue;
+            color: white;
+            text-align: left;
+            padding: 20px 40px;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            justify-content: flex-start;
+            align-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-button {
+            background-color: white;
+            color: blue;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .header-button:hover {
+            background-color: #ddd;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            margin-top: 80px; /* Pushes below header */
+        }
+
+        h1 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #333;
+            font-size: 18px;
+        }
+
+        .small-text {
+            color: #666;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="header-bar">
+        GeoSense Assist
+        <div class="header-buttons">
+            <a href="/login" class="header-button">Log In</a>
+            <a href="/sign-up" class="header-button">Sign Up</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Logout Confirmation</h1>
+        <p>You have successfully been logged out!</p>
+        <p class="small-text">You will be redirected to the home page in 5 seconds...</p>
+    </div>
+</body>
+
+</html>
+ 

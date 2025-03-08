@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        /* Banner Styling */ /* WIP: https://www.w3schools.com/howto/howto_js_topnav.asp */
+        .header-bar { /* How to make Login/Signup on the same lvl to the right: https://www.w3schools.com/css/css3_flexbox.asp */
+            width: 100%;
+            background-color: blue;
+            color: white;
+            text-align: left;
+            padding: 20px 40px;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            justify-content: flex-start;
+            align-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        /* Centering the Upload Container */
+        .upload-container { /* FILE UPLOAD: https://www.geeksforgeeks.org/how-to-create-a-file-upload-button-in-html */
+            background-color: white;
+            font: bold;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            margin: 40px auto;
+        }
+
+        .header-name {
+            flex-grow: 1;
+        }
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-button {
+            background-color: white;
+            color: blue;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .header-button:hover {
+            background-color: #ddd;
+        }
+
+        /* Hide default file input (otherwise there is 2 buttons) */
+        .file-upload {
+            display: none;
+        }
+
+        .custom-button {
+            padding: 8px 14px;
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px 0;
+            display: inline-block;
+        }
+
+        .custom-button:hover { /* change icon color when hovering */
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+
+<body> 
+    <div class="header-bar">
+        <div class="header-name">Geosense Assist</div>
+        <div class="header-buttons">
+            <a href="/login" class="header-button">Log In</a>
+            <a href="/sign-up" class="header-button">Sign Up</a>
+        </div>
+    </div>
+
+    <div class="upload-container">
+        <h2>Upload Your File</h2>
+        <b1>Accepted File Types: PDF, PNG, JPEG</b1> <!--https://www.w3schools.com/TAGs/att_input_accept.asp-->
+        <form> <!--https://www.w3schools.com/howto/howto_html_file_upload_button.asp-->
+            <input type="file" accept=".PDF, .JPEG, .PNG" id="fileUpload" class="file-upload" name="fileUpload">
+            <label for="fileUpload" class="custom-button">Choose File</label>
+            <input type="submit" value="Upload" class="custom-button">
+        </form>
+    </div>
+</body>
+
+</html>
