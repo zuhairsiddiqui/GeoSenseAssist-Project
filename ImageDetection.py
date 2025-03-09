@@ -36,9 +36,9 @@ def TestUserString():
 
 
 #test image input
-def get_image_from_user():
+def get_image_from_user(image_path):
     """Get an image from the user and prepare it for the API"""
-    image_path = input("Enter the path to your image file: ")  # Prompt the user for the image path, image_path will store it.
+    #image_path = input("Enter the path to your image file: ")  # Prompt the user for the image path, image_path will store it.
     try:
         # Open the image using Pillow
         img = Image.open(image_path)
@@ -47,15 +47,17 @@ def get_image_from_user():
         print(f"Error loading image: {e}")
         return None
 
-def analyze_image_geometry():
+def analyze_image_geometry(image_path):
     """Get an image from the user and analyze its geometry"""
-    img = get_image_from_user()
+    img = get_image_from_user(image_path)
     if img:
         # Send the image with a prompt to the chat session
         response = chat_session.send_message(
-            [img, "Analyze the geometry of the image."]
+            #[img, "Analyze the geometry of the image."]
+            [img, "Provide only the name this shape."]
         )
-        print(response.text)
+        #print(response.text)
+        return response.text
     else:
         print("No valid image provided.")
 
