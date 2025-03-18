@@ -97,20 +97,21 @@
     <div class="upload-container">
         <h2>Upload Your File</h2>
         <b1>Accepted File Types: PDF, PNG, JPEG</b1> <!--https://www.w3schools.com/TAGs/att_input_accept.asp-->
-        <form> <!--https://www.w3schools.com/howto/howto_html_file_upload_button.asp-->
+        <!--<form> https://www.w3schools.com/howto/howto_html_file_upload_button.asp-->
+        <form action="/upload" method="POST" enctype="multipart/form-data">    
             <input type="file" accept=".PDF, .JPEG, .PNG" id="fileUpload" class="file-upload" name="fileUpload">
             <label for="fileUpload" class="custom-button">Choose File</label>
             <input type="submit" value="Upload" class="custom-button">
         </form>
 
-        <h2>Enter Data</h2>
+        <!-- <h2>Enter Data</h2>
         <form action="/submit" method="POST">
             <label for="image">Image:</label>
             <input type="text" id="image" name="image" required>
             
             
             <button type="submit">Submit</button>
-        </form>
+        </form> -->
     </div>
 </body>
 
