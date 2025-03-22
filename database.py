@@ -2,8 +2,8 @@ import mysql.connector
 
 conn = mysql.connector.connect(
     host = "localhost",
-    user = "zuhair",
-    password = "siddiqui"
+    user = "aap0259",
+    password = "Ap4699992142"
 )
 
 
@@ -16,8 +16,8 @@ cursor.close()
 
 conn = mysql.connector.connect(
     host="localhost",
-    user="zuhair",
-    password="siddiqui",
+    user="aap0259",
+    password="Ap4699992142",
     database="GeoSensedb"
 )
 cursor = conn.cursor()
@@ -42,8 +42,8 @@ conn.close()
 # Connect to MySQL database
 conn = mysql.connector.connect(
     host="localhost",
-    user="zuhair",
-    password="siddiqui",
+    user="aap0259",
+    password="Ap4699992142",
     database="GeoSensedb"
 )
 
@@ -79,8 +79,8 @@ conn.close()
 # Connect to MySQL database
 conn = mysql.connector.connect(
     host="localhost",
-    user="zuhair",
-    password="siddiqui",
+    user="aap0259",
+    password="Ap4699992142",
     database="GeoSensedb"
 )
 

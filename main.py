@@ -34,8 +34,8 @@ os.makedirs(app.config['UPLOAD_DIRECTORY'], exist_ok=True)
 
 conn = mysql.connector.connect(
         host="localhost",
-        user="zuhair",
-        password="siddiqui",
+        user="aap0259",
+        password="Ap4699992142",    
         database="GeoSenseDB"
     )
 

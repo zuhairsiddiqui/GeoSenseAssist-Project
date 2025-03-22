@@ -8,7 +8,12 @@ import os
 import importlib.util
 
 module_name = "ImageDetection"
-module_path = "GeoSenseAssist-Project/ImageDetection.py"  # Adjust as needed
+
+# Get the base directory of the project (GeoSenseAssist-Project)
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+# Correct path to ImageDetection.py
+module_path = os.path.join(base_dir, "ImageDetection.py")
 
 spec = importlib.util.spec_from_file_location(module_name, module_path)
 ImageDetection = importlib.util.module_from_spec(spec)
@@ -27,8 +32,8 @@ views = Blueprint('views', __name__)
 
 conn = mysql.connector.connect(
         host="localhost",
-        user="zuhair",
-        password="siddiqui",
+        user="aap0259",
+        password="Ap4699992142",
         database="GeoSenseDB"
     )
 
