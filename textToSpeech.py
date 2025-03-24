@@ -16,4 +16,9 @@ textToSpeech("This is a text-to-speech example.")
 #Fast speeds (250-300 ): 
 #Very fast speeds (400+ )
 engine.setProperty('rate', 200)
+# Set the volume (0.0 to 1.0)
+engine.setProperty('volume', 0.0) 
 
+# Change the voice: 0 = male and 1 = female
+voices = engine.getProperty('voices') 
+engine.setProperty('voice', voices[1].id)  
