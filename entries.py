@@ -4,8 +4,8 @@ import mysql.connector
 # Connect to MySQL
 mydb = mysql.connector.connect(
     host="localhost",
-    user="zuhair",
-    password="siddiqui",
+    user="aap0259",
+    password="Ap4699992142",
     database="GeoSensedb"
 )
 
