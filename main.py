@@ -4,11 +4,16 @@ import numpy as np
 import random
 from datetime import datetime
 from dotenv import load_dotenv
-import ImageDetection 
+import ImageDetection  
 import google.generativeai as genai
 from website import create_app
 import os
+import socket
 
+hostname = socket.gethostname()
+local_ip = socket.gethostbyname(hostname)
+
+print(f"Your local IP: {local_ip}")
 
 
 
@@ -26,7 +31,18 @@ if not api_key:
 genai.configure(api_key=api_key)
 
 
+
+
 app = create_app()
+if __name__ == '__main__':
+    import socket
+    local_ip = socket.gethostbyname(socket.gethostname())
+    print(f"Access the app at: http://{local_ip}:5000")
+    app.run(host='0.0.0.0', port=5000, debug=True)
+
+
+
+
 app.config['UPLOAD_DIRECTORY'] = "uploads"
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16 MB
 
@@ -34,84 +50,10 @@ os.makedirs(app.config['UPLOAD_DIRECTORY'], exist_ok=True)
 
 conn = mysql.connector.connect(
         host="localhost",
-        user="zuhair",
-        password="siddiqui",
+        user = "app_user",
+        password = "P@ssw0rd$124!",
         database="GeoSenseDB"
     )
-
-# @app.route('/')
-# def index():
-#  #   data = np.arange(1,11)
-# #    random_number = random.randint(1,100)
-#     return render_template('website.html')  # Renders the HTML form
-
-
-# @app.route('/submit', methods=['POST'])
-# def submit():
-
-#     # print("before acquiring")
-#     # shape = request.form['image']
-#     # image = ImageDetection.analyze_image_geometry(shape)
-#     # date_time = datetime.now()
-#     # print("acquired variables")
-
-#     # cursor = conn.cursor()
-#     # sql = "INSERT INTO entry (shape, date) VALUES (%s,%s)"
-#     # val = (image,date_time)
-#     # cursor.execute(sql, val)
-#     # conn.commit()
-
-#     # print("successfully added")
-#     pass
-#     # return redirect('/')
-
-# @app.route('/upload', methods=['POST'])
-# def upload():
-#     try:
-        
-#         print("before acquiring")
-        
-#         if 'fileUpload' not in request.files:
-#           return "No file part", 400
-    
-#         file = request.files['fileUpload']
-
-#         if file.filename == '':
-#           return "No selected file", 400
-
-#         if file:
-#             file.save(os.path.join(app.config['UPLOAD_DIRECTORY'], secure_filename(file.filename)))          
-
-
-#         # uploads_folder = Path("uploads")
-#         # file_name = "example.txt"  # Change to the file you want
-#         file_path = file  # Create the full path
-        
-
-#         if file_path.exists():
-#           print("File found:", file_path.resolve())
-#         else:
-#           print("File not found.")
-
-
-#         shape = file_path
-#         image = ImageDetection.analyze_image_geometry(shape)
-#         date_time = datetime.now()
-#         print("acquired variables")
-
-#         cursor = conn.cursor()
-#         sql = "INSERT INTO entry (shape, date) VALUES (%s,%s)"
-#         val = (image,date_time)
-#         cursor.execute(sql, val)
-#         conn.commit()
-
-#         print("successfully added")
-          
-#     except RequestEntityTooLarge:
-#         return "File is larger than the 16 MB Limit"
-
-#     return redirect('/')
-
 
 if __name__ == '__main__':
     app.run(debug=True)

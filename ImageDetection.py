@@ -47,14 +47,16 @@ def get_image_from_user(image_path):
         print(f"Error loading image: {e}")
         return None
 
-def analyze_image_geometry(image_path):
+def analyze_image_geometry(image_path, command):
     """Get an image from the user and analyze its geometry"""
     img = get_image_from_user(image_path)
+    input = command
     if img:
         # Send the image with a prompt to the chat session
         response = chat_session.send_message(
             #[img, "Analyze the geometry of the image."]
-            [img, "Provide only the name this shape."]
+            #[img, "Provide only the name this shape."]
+            [img, input]
         )
         #print(response.text)
         return response.text

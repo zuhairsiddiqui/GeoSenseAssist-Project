@@ -7,8 +7,11 @@ from werkzeug.exceptions import RequestEntityTooLarge
 import os
 import importlib.util
 
+
+
 module_name = "ImageDetection"
-module_path = "GeoSenseAssist-Project/ImageDetection.py"  # Adjust as needed
+#module_path = "GeoSenseAssist-Project/ImageDetection.py"  # Adjust as needed
+module_path = os.path.join(os.path.dirname(__file__), "..", "ImageDetection.py")
 
 spec = importlib.util.spec_from_file_location(module_name, module_path)
 ImageDetection = importlib.util.module_from_spec(spec)
@@ -16,6 +19,10 @@ spec.loader.exec_module(ImageDetection)
 # https://www.youtube.com/watch?v=GQLRVhXnZkE
 
 app = Flask(__name__)
+
+
+
+
 app.config['UPLOAD_DIRECTORY'] = 'uploads/'
 parentFolder = 'GeoSenseAssist-Project/'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16 MB
@@ -27,8 +34,8 @@ views = Blueprint('views', __name__)
 
 conn = mysql.connector.connect(
         host="localhost",
-        user="zuhair",
-        password="siddiqui",
+        user = "app_user",
+        password = "P@ssw0rd$124!",
         database="GeoSenseDB"
     )
 
@@ -72,14 +79,20 @@ def upload():
     # base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Get current script directory
     file_path = os.path.abspath(full_path)
     print("file_path", file_path)
-    image = ImageDetection.analyze_image_geometry(file_path)
+
+    command = "Provide only the name this shape"
+
+    image = ImageDetection.analyze_image_geometry(file_path, command)
+
+    command = "Analyze the geometry of the image"
+    analysis  = ImageDetection.analyze_image_geometry(file_path, command)
     print("image:", image)
     date_time = datetime.now()
     print("acquired variables")
 
     cursor = conn.cursor()
-    sql = "INSERT INTO entry (shape, date) VALUES (%s,%s)"
-    val = (image,date_time)
+    sql = "INSERT INTO entry (shape, date, overall_analysis) VALUES (%s,%s,%s)"
+    val = (image,date_time, analysis)
     cursor.execute(sql, val)
     conn.commit()
 
