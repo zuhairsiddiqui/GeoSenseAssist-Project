@@ -1,10 +1,21 @@
 import mysql.connector
+import os
+from dotenv import load_dotenv
+
+dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
+load_dotenv(dotenv_path)
+
+HOST_NAME = os.getenv("HOST_NAME")
+USER_NAME = os.getenv("USER_NAME")
+USER_PASSWORD = os.getenv("USER_PASSWORD")
+DATABASE_NAME = os.getenv("DATABASE_NAME")
 
 conn = mysql.connector.connect(
-    host = "localhost",
-    user = "app_user",
-    password = "P@ssw0rd$124!"
-)
+        host=HOST_NAME,
+        user = USER_NAME,
+        password = USER_PASSWORD,
+        database=DATABASE_NAME
+    )
 
 
 cursor = conn.cursor()
@@ -18,11 +29,16 @@ if conn:
 
 try:
     
+    HOST_NAME = os.getenv("HOST_NAME")
+    USER_NAME = os.getenv("USER_NAME")
+    USER_PASSWORD = os.getenv("USER_PASSWORD")
+    DATABASE_NAME = os.getenv("DATABASE_NAME")
+
     conn = mysql.connector.connect(
-        host = "localhost",
-        user = "app_user",
-        password = "P@ssw0rd$124!",
-        database ="GeoSensedb"
+        host=HOST_NAME,
+        user = USER_NAME,
+        password = USER_PASSWORD,
+        database=DATABASE_NAME
     )
     cursor = conn.cursor()
 
@@ -173,56 +189,3 @@ finally:
     if conn:
         conn.close()
 
-
-
-# Create a users table
-# cursor.execute("""
-#     CREATE TABLE entry (
-#         id INT AUTO_INCREMENT PRIMARY KEY,
-#         date VARCHAR(100),
-#         shape VARCHAR(100)
-#     )
-# """)
-
-
-
-
-
-
-# cursor = conn.cursor()
-
-# # Table and column details
-# table_name = "entry"
-# column_name = "date"
-
-# # Check if the column exists
-# cursor.execute(f"""
-#     SELECT COUNT(*) 
-#     FROM INFORMATION_SCHEMA.COLUMNS 
-#     WHERE TABLE_NAME = '{table_name}' 
-#     AND COLUMN_NAME = '{column_name}' 
-#     AND TABLE_SCHEMA = DATABASE()
-# """)
-
-# column_exists = cursor.fetchone()[0]
-
-# if column_exists == 0:
-#     # If column does not exist, add it
-#     cursor.execute(f"ALTER TABLE {table_name} ADD COLUMN {column_name} VARCHAR(255)")
-#     conn.commit()
-#     print(f"Column '{column_name}' added successfully!")
-# else:
-#     print(f"Column '{column_name}' already exists.")
-
-# cursor = conn.cursor()
-
-# sql = "ALTER TABLE entry MODIFY COLUMN shape VARCHAR(255)"
-# try:
-#     cursor.execute(sql)
-#     conn.commit()  # Save changes
-#     print("Column 'shape' size increased successfully!")
-# except mysql.connector.Error as err:
-#     print(f"Error: {err}")
-# finally:
-#     cursor.close()
-#     conn.close()

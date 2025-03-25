@@ -48,11 +48,16 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16 MB
 
 os.makedirs(app.config['UPLOAD_DIRECTORY'], exist_ok=True)
 
+HOST_NAME = os.getenv("HOST_NAME")
+USER_NAME = os.getenv("USER_NAME")
+USER_PASSWORD = os.getenv("USER_PASSWORD")
+DATABASE_NAME = os.getenv("DATABASE_NAME")
+
 conn = mysql.connector.connect(
-        host="localhost",
-        user = "app_user",
-        password = "P@ssw0rd$124!",
-        database="GeoSenseDB"
+        host=HOST_NAME,
+        user = USER_NAME,
+        password = USER_PASSWORD,
+        database=DATABASE_NAME
     )
 
 if __name__ == '__main__':

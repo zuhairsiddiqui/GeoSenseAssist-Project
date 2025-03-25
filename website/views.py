@@ -6,7 +6,11 @@ from werkzeug.exceptions import RequestEntityTooLarge
 # built-in python library installed when you install python. it helps make sure files uploaded are safe.
 import os
 import importlib.util
+from dotenv import load_dotenv
 
+
+dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
+load_dotenv(dotenv_path)
 
 
 module_name = "ImageDetection"
@@ -32,11 +36,15 @@ views = Blueprint('views', __name__)
 
 
 
+HOST_NAME = os.getenv("HOST_NAME")
+USER_NAME = os.getenv("USER_NAME")
+USER_PASSWORD = os.getenv("USER_PASSWORD")
+DATABASE_NAME = os.getenv("DATABASE_NAME")
 conn = mysql.connector.connect(
-        host="localhost",
-        user = "app_user",
-        password = "P@ssw0rd$124!",
-        database="GeoSenseDB"
+        host=HOST_NAME,
+        user = USER_NAME,
+        password = USER_PASSWORD,
+        database=DATABASE_NAME
     )
 
 
