@@ -2,56 +2,50 @@ import mysql.connector
 import os
 from dotenv import load_dotenv
 
+# Load environment variables
 dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
 load_dotenv(dotenv_path)
 
+# Get database credentials from environment variables
 HOST_NAME = os.getenv("HOST_NAME")
 USER_NAME = os.getenv("USER_NAME")
 USER_PASSWORD = os.getenv("USER_PASSWORD")
-DATABASE_NAME = os.getenv("DATABASE_NAME")
-
-conn = mysql.connector.connect(
-        host=HOST_NAME,
-        user = USER_NAME,
-        password = USER_PASSWORD,
-        database=DATABASE_NAME
-    )
-
-
-cursor = conn.cursor()
-# Create database if it doesn't exist
-cursor.execute(f"CREATE DATABASE IF NOT EXISTS GeoSensedb")
-print("Database created successfully.")
-if cursor:
-    cursor.close()
-if conn:
-    conn.close()
+DATABASE_NAME = os.getenv("DATABASE_NAME", "GeoSensedb")  # Set default database name
 
 try:
-    
-    HOST_NAME = os.getenv("HOST_NAME")
-    USER_NAME = os.getenv("USER_NAME")
-    USER_PASSWORD = os.getenv("USER_PASSWORD")
-    DATABASE_NAME = os.getenv("DATABASE_NAME")
-
+    # First connection to create database if it doesn't exist
     conn = mysql.connector.connect(
         host=HOST_NAME,
-        user = USER_NAME,
-        password = USER_PASSWORD,
+        user=USER_NAME,
+        password=USER_PASSWORD
+    )
+    cursor = conn.cursor()
+    
+    # Create database if it doesn't exist
+    cursor.execute(f"CREATE DATABASE IF NOT EXISTS {DATABASE_NAME}")
+    print(f"Database '{DATABASE_NAME}' created or already exists.")
+    
+    # Close initial connection
+    cursor.close()
+    conn.close()
+    
+    # Connect to the specific database
+    conn = mysql.connector.connect(
+        host=HOST_NAME,
+        user=USER_NAME,
+        password=USER_PASSWORD,
         database=DATABASE_NAME
     )
     cursor = conn.cursor()
-
-    cursor.execute("START TRANSACTION;")
-    # Table name to check
-    print("line 19")
+    
+    # Begin transaction
+    cursor.execute("START TRANSACTION")
+    
+    # Create shape_table if it doesn't exist
     shape_tb = "shape_table"
-
-    # Query to check if the table exists
     cursor.execute(f"SHOW TABLES LIKE '{shape_tb}'")
     result = cursor.fetchone()
-
-    # If the table doesn't exist, create it
+    
     if not result:
         create_table_query = f"""
         CREATE TABLE {shape_tb} (
@@ -64,23 +58,18 @@ try:
             size_lengths VARCHAR(255),
             overall_Analysis VARCHAR(1000),
             link VARCHAR(1000)
-
         );
         """
         cursor.execute(create_table_query)
         print(f"Table '{shape_tb}' was created successfully.")
     else:
         print(f"Table '{shape_tb}' already exists.")
-########################################################################################
-    print("line 47")
-    # Table name to check
+    
+    # Create equation_table if it doesn't exist
     equation_tb = "equation_table"
-
-    # Query to check if the table exists
     cursor.execute(f"SHOW TABLES LIKE '{equation_tb}'")
     result = cursor.fetchone()
-
-    # If the table doesn't exist, create it
+    
     if not result:
         create_table_query = f"""
         CREATE TABLE {equation_tb} (
@@ -93,23 +82,18 @@ try:
             size_lengths VARCHAR(255),
             overall_Analysis VARCHAR(1000),
             link VARCHAR(1000)
-
         );
         """
         cursor.execute(create_table_query)
         print(f"Table '{equation_tb}' was created successfully.")
     else:
         print(f"Table '{equation_tb}' already exists.")
-#################################################################################
-    print("line 76")
-    # Table name to check
+    
+    # Create graph_table if it doesn't exist
     graph_tb = "graph_table"
-
-    # Query to check if the table exists
     cursor.execute(f"SHOW TABLES LIKE '{graph_tb}'")
     result = cursor.fetchone()
-
-    # If the table doesn't exist, create it
+    
     if not result:
         create_table_query = f"""
         CREATE TABLE {graph_tb} (
@@ -120,72 +104,81 @@ try:
             y_axis VARCHAR(255),
             overall_Analysis VARCHAR(1000),
             link VARCHAR(1000)
-
         );
         """
         cursor.execute(create_table_query)
         print(f"Table '{graph_tb}' was created successfully.")
     else:
         print(f"Table '{graph_tb}' already exists.")
-###################################################################################
-    print("line 103")
-    # Column check query
+    
+    # Check if entry table exists before trying to modify it
+    table_name = "entry"
+    cursor.execute(f"SHOW TABLES LIKE '{table_name}'")
+    table_exists = cursor.fetchone()
+    
+    if not table_exists:
+        # Create entry table if it doesn't exist
+        create_entry_table = f"""
+        CREATE TABLE {table_name} (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+        """
+        cursor.execute(create_entry_table)
+        print(f"Table '{table_name}' was created.")
+    
+    # Add overall_analysis column to entry table if it doesn't exist
     column_name = "overall_analysis"
-    table_name = "entry"
-
     check_column_query = """
     SELECT COUNT(*) 
     FROM INFORMATION_SCHEMA.COLUMNS 
     WHERE TABLE_NAME = %s AND COLUMN_NAME = %s AND TABLE_SCHEMA = DATABASE();
     """
-
+    
     cursor.execute(check_column_query, (table_name, column_name))
-    column_exists = cursor.fetchone()[0]  # Fetch the count result
-
+    column_exists = cursor.fetchone()[0]
+    
     if column_exists:
         print(f"Column '{column_name}' already exists in table '{table_name}'.")
     else:
         print(f"Column '{column_name}' does not exist. Adding it now...")
         column_data_type = "VARCHAR(1000)"
-        # SQL query to add a new column
         alter_query = f"ALTER TABLE {table_name} ADD COLUMN {column_name} {column_data_type};"
         cursor.execute(alter_query)
         print(f"Column '{column_name}' added successfully!")
-######################################################################################
-    print("line 127")
-    # Column check query
+    
+    # Add link column to entry table if it doesn't exist
     column_name = "link"
-    table_name = "entry"
-
-    check_column_query = """
-    SELECT COUNT(*) 
-    FROM INFORMATION_SCHEMA.COLUMNS 
-    WHERE TABLE_NAME = %s AND COLUMN_NAME = %s AND TABLE_SCHEMA = DATABASE();
-    """
-
     cursor.execute(check_column_query, (table_name, column_name))
-    column_exists = cursor.fetchone()[0]  # Fetch the count result
-
+    column_exists = cursor.fetchone()[0]
+    
     if column_exists:
         print(f"Column '{column_name}' already exists in table '{table_name}'.")
     else:
         print(f"Column '{column_name}' does not exist. Adding it now...")
         column_data_type = "VARCHAR(1000)"
-        # SQL query to add a new column
         alter_query = f"ALTER TABLE {table_name} ADD COLUMN {column_name} {column_data_type};"
         cursor.execute(alter_query)
         print(f"Column '{column_name}' added successfully!")
-#######################################################################################
-    cursor.execute("COMMIT;")
+    
+    # Commit all changes
+    cursor.execute("COMMIT")
     print("Database and tables created successfully!")
+
 except mysql.connector.Error as e:
-    cursor.execute("ROLLBACK;")  # Undo all queries if any fail
-    print(f"Error: {e}")
+    if conn.is_connected():
+        cursor.execute("ROLLBACK")  # Undo all queries if any fail
+    print(f"MySQL Error: {e}")
+
+except Exception as e:
+    if 'conn' in locals() and conn.is_connected():
+        cursor.execute("ROLLBACK")
+    print(f"General Error: {e}")
 
 finally:
     # Close the cursor and connection
-    if cursor:
+    if 'cursor' in locals() and cursor:
         cursor.close()
-    if conn:
+    if 'conn' in locals() and conn and conn.is_connected():
         conn.close()
-
+        print("MySQL connection closed.")
