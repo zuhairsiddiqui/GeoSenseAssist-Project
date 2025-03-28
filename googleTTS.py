@@ -1,6 +1,7 @@
-#functions that read out an input string using tts will be created in this test file, and will then be used in the website 
 from gtts import gTTS
 
+#textToSpeech function will be called to generate an mp3 file containing TTS of a given string.
+#the created mp3 file will then be sent to the website and used appropriately 
 def textToSpeech(userText):
     obj = gTTS(text=userText, lang='en', slow=False)
     obj.save("audio.mp3")
