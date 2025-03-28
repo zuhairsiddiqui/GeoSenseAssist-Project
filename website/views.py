@@ -1,6 +1,6 @@
 import mysql.connector
 from datetime import datetime
-from flask import Flask, Blueprint, render_template, request, redirect
+from flask import Flask, Blueprint, render_template, request, redirect, send_from_directory
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 # built-in python library installed when you install python. it helps make sure files uploaded are safe.
@@ -65,6 +65,11 @@ def logout():
 def signup():
     return render_template("signup.html")
 
+@views.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_DIRECTORY'], filename)
+
+
 @views.route('/upload', methods=['POST'])
 def upload():
     print("before acquiring")
@@ -88,7 +93,7 @@ def upload():
     file_path = os.path.abspath(full_path)
     print("file_path", file_path)
 
-    command = "Provide only the name this shape"
+    command = "Provide only the name of this shape"
 
     image = ImageDetection.analyze_image_geometry(file_path, command)
 
@@ -106,4 +111,4 @@ def upload():
 
     print("successfully added")
 
-    return redirect('/')
+    return render_template('Shapes.html', filename=shape, result=analysis)
