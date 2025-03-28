@@ -8,6 +8,8 @@ How to run GeoSense
 dowload mySQL community
 https://dev.mysql.com/downloads/installer/
 
+for macOS you can use homebrew to install mySQL: https://brew.sh/ then once its installed run brew install mySQL in your terminal
+
 **step 2:**
 accept all default settings in mySQL, create your root username and password 
 
@@ -28,7 +30,7 @@ DATABASE_NAME = insert database name provided in group chat
 (NOTE: do not place the variable data in quotations)
 
 **step 6:**
-paste api key, hostname, username, password, and databse in .env
+paste api key, hostname, username, password, and database in .env
  
 **step 7:**
 run database.py
