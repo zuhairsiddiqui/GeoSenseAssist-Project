@@ -1,17 +1,14 @@
-import mysql.connector
-from datetime import datetime
-from flask import Flask, Blueprint, render_template, request, redirect, send_from_directory
+from flask import Flask, Blueprint, render_template, request, redirect, send_from_directory, url_for
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 # built-in python library installed when you install python. it helps make sure files uploaded are safe.
 import os
 import importlib.util
+from . import buttonsFunctionality
 from dotenv import load_dotenv
-
 
 dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
 load_dotenv(dotenv_path)
-
 
 module_name = "ImageDetection"
 #module_path = "GeoSenseAssist-Project/ImageDetection.py"  # Adjust as needed
@@ -24,30 +21,12 @@ spec.loader.exec_module(ImageDetection)
 
 app = Flask(__name__)
 
-
-
-
 app.config['UPLOAD_DIRECTORY'] = 'uploads/'
 parentFolder = 'GeoSenseAssist-Project/'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16 MB
 upload_dir = os.path.join(parentFolder,app.config['UPLOAD_DIRECTORY'])
 os.makedirs(upload_dir, exist_ok=True)
 views = Blueprint('views', __name__)
-
-
-
-HOST_NAME = os.getenv("HOST_NAME")
-USER_NAME = os.getenv("USER_NAME")
-USER_PASSWORD = os.getenv("USER_PASSWORD")
-DATABASE_NAME = os.getenv("DATABASE_NAME")
-conn = mysql.connector.connect(
-        host=HOST_NAME,
-        user = USER_NAME,
-        password = USER_PASSWORD,
-        database=DATABASE_NAME
-    )
-
-
 
 @views.route('/') # will run for main page
 def home():
@@ -69,46 +48,18 @@ def signup():
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_DIRECTORY'], filename)
 
-
-@views.route('/upload', methods=['POST'])
-def upload():
-    print("before acquiring")
-    try:
-        file = request.files['fileUpload']
-        print(upload_dir)
-        if file:
-            #upload_directory = app.config['UPLOAD_DIRECTORY']
-            # filename = secure_filename(file.filename)
-            # full_path = os.path.join(upload_directory, filename)
-            full_path = os.path.join(upload_dir, secure_filename(file.filename))
-            file.save(full_path)
-            
-    except RequestEntityTooLarge:
-        return "File is larger than the 16 MB Limit"
-
-    shape = file.filename
-    print("shape:", shape)
-    print("full_path:", full_path)
-    # base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Get current script directory
-    file_path = os.path.abspath(full_path)
-    print("file_path", file_path)
-
-    command = "Provide only the name of this shape"
-
-    image = ImageDetection.analyze_image_geometry(file_path, command)
-
-    command = "Analyze the geometry of the image"
-    analysis  = ImageDetection.analyze_image_geometry(file_path, command)
-    print("image:", image)
-    date_time = datetime.now()
-    print("acquired variables")
-
-    cursor = conn.cursor()
-    sql = "INSERT INTO entry (shape, date, overall_analysis) VALUES (%s,%s,%s)"
-    val = (image,date_time, analysis)
-    cursor.execute(sql, val)
-    conn.commit()
-
-    print("successfully added")
-
+@views.route('/upload_shapes', methods=['POST'])
+def upload_shapes():
+    shape, analysis = buttonsFunctionality.upload_shapes("of a 9th - 12th grader")
     return render_template('Shapes.html', filename=shape, result=analysis)
+
+@views.route('/upload_graphs', methods=['POST'])
+def upload_graphs():
+  graph, analysis = buttonsFunctionality.upload_graph("of a 9th - 12th grader")
+  return render_template('graphs.html', filename=graph, result=analysis)
+
+@views.route('/upload_equations', methods=['POST'])
+def upload_equation():
+  equation, analysis = buttonsFunctionality.upload_equation("of a 9th - 12th grader")
+  return render_template('equations.html', filename=equation, result=analysis)
+

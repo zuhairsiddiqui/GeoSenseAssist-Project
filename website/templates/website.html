@@ -93,17 +93,17 @@
     </div>
 
     <div class="button-container">
-        <form action="/upload" method="POST" enctype="multipart/form-data">
+        <form action="/upload_shapes" method="POST" enctype="multipart/form-data">
             <input type="file" name="fileUpload" accept=".pdf,.jpg,.jpeg,.png" class="file-input" id="shapesFile" onchange="this.form.submit()">
             <label for="shapesFile" class="custom-button">Analyze Shapes</label>
         </form>
 
-        <form action="/upload" method="POST" enctype="multipart/form-data">
+        <form action="/upload_graphs" method="POST" enctype="multipart/form-data">
             <input type="file" name="fileUpload" accept=".pdf,.jpg,.jpeg,.png" class="file-input" id="graphsFile" onchange="this.form.submit()">
             <label for="graphsFile" class="custom-button">Analyze Graphs</label>
         </form>
 
-        <form action="/upload" method="POST" enctype="multipart/form-data">
+        <form action="/upload_equations" method="POST" enctype="multipart/form-data">
             <input type="file" name="fileUpload" accept=".pdf,.jpg,.jpeg,.png" class="file-input" id="equationsFile" onchange="this.form.submit()">
             <label for="equationsFile" class="custom-button">Analyze Equations</label>
         </form>

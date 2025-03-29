@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<body>
+    <h1>Graph Analysis</h1>
+    <p>Uploaded Graph File: {{ filename }}</p>
+    <!-- Show the image -->
+    <img src="{{ url_for('views.uploaded_file', filename=filename) }}" alt="Uploaded Graph Image" />
+    <!-- Show analysis result (if any) -->
+    <p>Analysis Result: {{ result }}</p>
+</body>
+</html>
