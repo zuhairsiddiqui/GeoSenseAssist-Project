@@ -3,21 +3,21 @@ import os
 from dotenv import load_dotenv
 
 # Load environment variables
-dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
-load_dotenv(dotenv_path)
+#dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
+load_dotenv()
 
 # Get database credentials from environment variables
 HOST_NAME = os.getenv("HOST_NAME")
 USER_NAME = os.getenv("USER_NAME")
 USER_PASSWORD = os.getenv("USER_PASSWORD")
-DATABASE_NAME = os.getenv("DATABASE_NAME", "GeoSensedb")  # Set default database name
+DATABASE_NAME = os.getenv("DATABASE_NAME")
 
 try:
     # First connection to create database if it doesn't exist
     conn = mysql.connector.connect(
         host=HOST_NAME,
-        user=USER_NAME,
-        password=USER_PASSWORD
+        user = USER_NAME,
+        password = USER_PASSWORD
     )
     cursor = conn.cursor()
     
@@ -32,8 +32,8 @@ try:
     # Connect to the specific database
     conn = mysql.connector.connect(
         host=HOST_NAME,
-        user=USER_NAME,
-        password=USER_PASSWORD,
+        user = USER_NAME,
+        password = USER_PASSWORD,
         database=DATABASE_NAME
     )
     cursor = conn.cursor()
