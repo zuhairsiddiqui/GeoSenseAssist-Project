@@ -6,7 +6,7 @@ import requests
 flask_process = subprocess.Popen(["python", "main.py"])
 
 # Wait for the server to be fully ready (with retry logic)
-def wait_for_server(url='http://localhost:5000', timeout=30):
+def wait_for_server(url='http://0.0.0.0:5000', timeout=30):
     start_time = time.time()
     while time.time() - start_time < timeout:
         try:
