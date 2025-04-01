@@ -22,7 +22,7 @@ def test_api_status():
     # Wait for the server to start
     if wait_for_server():
         # Make HTTP requests to the server
-        response = requests.get('http://localhost:5000')
+        response = requests.get('http://0.0.0.0:5000')
         assert response.status_code == 200
     else:
         print("Server failed to start in time.")
