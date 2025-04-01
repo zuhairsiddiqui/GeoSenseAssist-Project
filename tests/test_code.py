@@ -8,7 +8,7 @@ time.sleep(10)  # Give server time to start
 
 def test_api_status():
     try:
-        response = requests.get("http://0.0.0.0:5000")
+        response = requests.get(""http://localhost:5000"")
         assert response.status_code == 200
     except requests.exceptions.ConnectionError as e:
         print("Connection Error:", e)
