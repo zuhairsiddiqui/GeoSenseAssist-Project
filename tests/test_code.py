@@ -13,5 +13,3 @@ def test_api_status():
         print("Connection Error:", e)
         assert False  # Force test to fail with an error message
 
-# Stop server after tests
-flask_process.terminate()
