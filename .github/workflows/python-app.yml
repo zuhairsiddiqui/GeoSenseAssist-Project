@@ -37,7 +37,7 @@ jobs:
       - name: Start Flask app
         run: |
           python main.py &
-          sleep 5  # Wait for the server to start
+          sleep 15  # Wait for the server to start
 
       - name: Run API tests
         run: pytest tests/
