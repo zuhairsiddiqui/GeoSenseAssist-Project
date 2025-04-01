@@ -19,7 +19,7 @@ mydb = mysql.connector.connect(
 cursor = mydb.cursor()
 
 # Fetch data from table
-cursor.execute("SELECT * FROM entry")
+cursor.execute("SELECT * FROM equation_table")
 
 # Get all rows
 rows = cursor.fetchall()
@@ -27,6 +27,32 @@ rows = cursor.fetchall()
 # Display data
 for row in rows:
     print(row)
+
+print("--------------------------------------------------------------------------")
+
+# Fetch data from table
+cursor.execute("SELECT * FROM shape_table")
+
+# Get all rows
+rows = cursor.fetchall()
+
+# Display data
+for row in rows:
+    print(row)
+
+print("----------------------------------------------------------------------------")
+
+# Fetch data from table
+cursor.execute("SELECT * FROM graph_table")
+
+# Get all rows
+rows = cursor.fetchall()
+
+# Display data
+for row in rows:
+    print(row)
+
+
 # Close connection
 cursor.close()
 mydb.close()

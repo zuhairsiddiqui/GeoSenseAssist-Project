@@ -111,56 +111,6 @@ try:
     else:
         print(f"Table '{graph_tb}' already exists.")
     
-    # Check if entry table exists before trying to modify it
-    table_name = "entry"
-    cursor.execute(f"SHOW TABLES LIKE '{table_name}'")
-    table_exists = cursor.fetchone()
-    
-    if not table_exists:
-        # Create entry table if it doesn't exist
-        create_entry_table = f"""
-        CREATE TABLE {table_name} (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
-        """
-        cursor.execute(create_entry_table)
-        print(f"Table '{table_name}' was created.")
-    
-    # Add overall_analysis column to entry table if it doesn't exist
-    column_name = "overall_analysis"
-    check_column_query = """
-    SELECT COUNT(*) 
-    FROM INFORMATION_SCHEMA.COLUMNS 
-    WHERE TABLE_NAME = %s AND COLUMN_NAME = %s AND TABLE_SCHEMA = DATABASE();
-    """
-    
-    cursor.execute(check_column_query, (table_name, column_name))
-    column_exists = cursor.fetchone()[0]
-    
-    if column_exists:
-        print(f"Column '{column_name}' already exists in table '{table_name}'.")
-    else:
-        print(f"Column '{column_name}' does not exist. Adding it now...")
-        column_data_type = "VARCHAR(1000)"
-        alter_query = f"ALTER TABLE {table_name} ADD COLUMN {column_name} {column_data_type};"
-        cursor.execute(alter_query)
-        print(f"Column '{column_name}' added successfully!")
-    
-    # Add link column to entry table if it doesn't exist
-    column_name = "link"
-    cursor.execute(check_column_query, (table_name, column_name))
-    column_exists = cursor.fetchone()[0]
-    
-    if column_exists:
-        print(f"Column '{column_name}' already exists in table '{table_name}'.")
-    else:
-        print(f"Column '{column_name}' does not exist. Adding it now...")
-        column_data_type = "VARCHAR(1000)"
-        alter_query = f"ALTER TABLE {table_name} ADD COLUMN {column_name} {column_data_type};"
-        cursor.execute(alter_query)
-        print(f"Column '{column_name}' added successfully!")
-    
     # Commit all changes
     cursor.execute("COMMIT")
     print("Database and tables created successfully!")

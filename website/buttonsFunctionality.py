@@ -6,7 +6,11 @@ from werkzeug.exceptions import RequestEntityTooLarge
 import os
 import importlib.util
 from dotenv import load_dotenv
+import sys
 
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(parent_dir)
+import googleTTS
 
 dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
 load_dotenv(dotenv_path)
@@ -43,7 +47,7 @@ def upload_shapes(education_level):
     print("acquired variables")
 
     table = 'shape_table'
-    sql = f"INSERT INTO {table} (shape, num_of_Sides, num_of_Angles, size_of_Angles, size_lengths, overall_analysis) VALUES (%s,%s,%s,%s,%s,%s)"
+    sql = f"INSERT INTO {table} (shape, num_of_Sides, num_of_Angles, size_of_Angles, size_lengths, overall_analysis) VALUES (%s,%s,%s,%s,%s, %s)"
     val = (shape,numOfSides,numOfAngles, sizeOfAngles, sizeOfSides, analysis)
     accessDatabase(sql, val)
     print("successfully added")
@@ -79,7 +83,7 @@ def upload_equation(education_level):
     print("acquired variables")
     table = 'equation_table'
 
-    sql = f"INSERT INTO {table} (equation_type, num_of_terms, highest_Degree, overall_analysis) VALUES (%s,%s,%s, %s)"
+    sql = f"INSERT INTO {table} (equation_type, num_of_terms, highest_Degree, overall_analysis) VALUES (%s,%s,%s,%s)"
     val = (equation,numOfTerms, highest_deg, analysis)
     accessDatabase(sql, val)
 
