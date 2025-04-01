@@ -36,8 +36,11 @@ jobs:
 
       - name: Start Flask app
         run: |
-          python main.py &
-          sleep 15  # Wait for the server to start
+          nohup python main.py > flask.log 2>&1 &  # Start the server and capture output
+          sleep 10  # Wait for the server to start
+      - name: Display Flask logs
+        run: |
+          cat flask.log  # Show the logs to check if there are errors
 
       - name: Run API tests
         run: pytest tests/
