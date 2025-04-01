@@ -6,3 +6,4 @@ pillow
 werkzeug
 google-generativeai
 gTTS
+pytest
