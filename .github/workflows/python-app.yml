@@ -43,4 +43,5 @@ jobs:
           cat flask.log  # Show the logs to check if there are errors
 
       - name: Run API tests
-        run: pytest tests/
+        run: nohup python main.py &
+          pytest tests/test_code.py
