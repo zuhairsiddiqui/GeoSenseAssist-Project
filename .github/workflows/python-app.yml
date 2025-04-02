@@ -44,8 +44,13 @@ jobs:
       - name: Display Flask logs
         run: cat flask.log
 
-      - name: Run API tests
-        run: pytest tests/test_code.py
+      - name: Run tests
+       env:
+         DB_HOST: ${{ secrets.HOST_NAME }}
+         DB_USER: ${{ secrets.USER_NAME }}
+         DB_PASSWORD: ${{ secrets.USER_PASSWORD }}
+         DB_NAME: ${{ secrets.DATABASE_NAME }}
+       run: pytest tests/test_code.py
 
       - name: Stop Flask app
         run: pkill -f main.py || true
