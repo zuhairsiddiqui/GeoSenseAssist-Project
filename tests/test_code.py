@@ -2,8 +2,8 @@ import subprocess
 import time
 import requests
 
-# Start Flask server before tests
-flask_process = subprocess.Popen(["python", "main.py"])
+# Start Flask server
+flask_process = subprocess.Popen(["python", "main.py"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 # Wait for the server to be fully ready (with retry logic)
 def wait_for_server(url='http://0.0.0.0:5000', timeout=30):
@@ -25,8 +25,15 @@ def test_api_status():
         response = requests.get('http://0.0.0.0:5000')
         assert response.status_code == 200
     else:
-        print("Server failed to start in time.")
+        print("❌ Server failed to start in time. Check logs below:")
+        with open("flask.log", "r") as log_file:
+            print(log_file.read())
         assert False  # Fail the test if the server didn't start in time
 
-# Stop server after tests
-flask_process.terminate()
+# Run test
+try:
+    test_api_status()
+finally:
+    # Stop the server
+    flask_process.terminate()
+    flask_process.wait()  # Ensure full shutdown
