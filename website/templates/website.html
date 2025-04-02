@@ -80,6 +80,39 @@
         .file-input {
             display: none;
         }
+
+        .education-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .circle-button {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid black;
+            background-color: transparent;
+            color: black;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .circle-button:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .circle-button.selected {
+            background-color: black;
+            color: white;
+        }
+
     </style>
 </head>
 
@@ -94,22 +127,50 @@
 
     <div class="button-container">
         <form action="/upload_shapes" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="educationLevel" id="educationLevel" value="elementarylevel">
             <input type="file" name="fileUpload" accept=".pdf,.jpg,.jpeg,.png" class="file-input" id="shapesFile" onchange="this.form.submit()">
             <label for="shapesFile" class="custom-button">Analyze Shapes</label>
         </form>
 
         <form action="/upload_graphs" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="educationLevel" id="educationLevel" value="elementarylevel">
             <input type="file" name="fileUpload" accept=".pdf,.jpg,.jpeg,.png" class="file-input" id="graphsFile" onchange="this.form.submit()">
             <label for="graphsFile" class="custom-button">Analyze Graphs</label>
         </form>
 
         <form action="/upload_equations" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="educationLevel" id="educationLevel" value="elementarylevel">
             <input type="file" name="fileUpload" accept=".pdf,.jpg,.jpeg,.png" class="file-input" id="equationsFile" onchange="this.form.submit()">
             <label for="equationsFile" class="custom-button">Analyze Equations</label>
         </form>
 
         <a href="/history" class="custom-button">Submission History</a>
     </div>
+
+    <div class="education-buttons">
+        <button type="button" class="circle-button" onclick="setEducationLevel('elementarylevel', this)">K-5</button>
+        <button type="button" class="circle-button" onclick="setEducationLevel('middlelevel', this)">6-12</button>
+        <button type="button" class="circle-button" onclick="setEducationLevel('collegelevel', this)">12+</button>
+    </div>
+
+    <script>
+        function setEducationLevel(level, element) {
+            // Update all hidden input fields in forms (change the education levels for them)
+            document.querySelectorAll("input[name='educationLevel']").forEach(input => {
+                input.value = level;
+            });
+
+            // Reset button styles
+            document.querySelectorAll(".circle-button").forEach(btn => {
+                btn.classList.remove("selected");
+            });
+
+            // Highlight selected button for user
+            element.classList.add("selected");
+        }
+    </script>
+
+    <!-- https://www.w3schools.com/tags/att_input_type_radio.asp */
 </body>
 
 </html>

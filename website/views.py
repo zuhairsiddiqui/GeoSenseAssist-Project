@@ -69,19 +69,24 @@ def signup():
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_DIRECTORY'], filename)
 
+# value = request.form.get(key, default=None), key being educationLevel which we get, and the elementary level being the default.
+
 @views.route('/upload_shapes', methods=['POST'])
 def upload_shapes():
-    shape, analysis = buttonsFunctionality.upload_shapes("of a 9th - 12th grader")
+    education_level = request.form.get("educationLevel", "elementarylevel")
+    shape, analysis = buttonsFunctionality.upload_shapes(education_level)
     return render_template('Shapes.html', filename=shape, result=analysis)
 
 @views.route('/upload_graphs', methods=['POST'])
 def upload_graphs():
-  graph, analysis = buttonsFunctionality.upload_graph("of a 9th - 12th grader")
+  education_level = request.form.get("educationLevel", "elementarylevel")  
+  graph, analysis = buttonsFunctionality.upload_graph(education_level)
   return render_template('graphs.html', filename=graph, result=analysis)
 
 @views.route('/upload_equations', methods=['POST'])
 def upload_equation():
-  equation, analysis = buttonsFunctionality.upload_equation("of a 9th - 12th grader")
+  education_level = request.form.get("educationLevel", "elementarylevel")
+  equation, analysis = buttonsFunctionality.upload_equation(education_level)
   return render_template('equations.html', filename=equation, result=analysis)
 
 @views.route('/audio_analysis', methods=['POST'])
