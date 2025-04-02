@@ -29,19 +29,21 @@ jobs:
 
       - name: Lint with flake8
         run: |
-          # stop the build if there are Python syntax errors or undefined names
+          # Stop the build if there are Python syntax errors or undefined names
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          # Exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
       - name: Start Flask app
         run: |
-          nohup python main.py > flask.log 2>&1 &  # Start the server and capture output
-          sleep 10  # Wait for the server to start
+          nohup python main.py > flask.log 2>&1 &  # Start the Flask app in the background
+          sleep 10  # Give it time to start
+
       - name: Display Flask logs
-        run: |
-          cat flask.log  # Show the logs to check if there are errors
+        run: cat flask.log  # Useful for debugging if the server fails to start
 
       - name: Run API tests
-        run: nohup python main.py &
-          pytest tests/test_code.py
+        run: pytest tests/test_code.py  # Run API tests
+
+      - name: Stop Flask app
+        run: pkill -f main.py || true  # Ensure the Flask app is stopped after tests
