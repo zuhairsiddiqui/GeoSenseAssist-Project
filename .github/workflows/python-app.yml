@@ -17,7 +17,7 @@ jobs:
       mysql:
         image: mysql:latest
         ports:
-          - 3306:3306
+          - 5000:3306
         
     steps:
       # Checkout code from the repository
@@ -56,7 +56,7 @@ jobs:
         run: |
           echo "Waiting for MySQL to be ready..."
           for i in {30..0}; do
-            if mysql -h 127.0.0.1 -u root --password=${{ secrets.USER_PASSWORD }} -e 'SELECT 1' ${{ secrets.DATABASE_NAME }}; then
+            if mysql -h 127.0.0.1 -P 5000 -u {{ secrets.USER_NAME }} --password=${{ secrets.USER_PASSWORD }} -e 'SELECT 1' ${{ secrets.DATABASE_NAME }}; then
               echo "MySQL is ready!"
               exit 0
             fi
