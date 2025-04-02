@@ -16,15 +16,10 @@ jobs:
     services:
       mysql:
         image: mysql:latest
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.USER_PASSWORD }}
-          MYSQL_DATABASE: ${{ secrets.DATABASE_NAME }}
-          MYSQL_USER: ${{ secrets.USER_NAME }}
-          MYSQL_PASSWORD: ${{ secrets.USER_PASSWORD }}
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 -u ${{ secrets.USER_NAME }} --password=${{ secrets.USER_PASSWORD }}"
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -u root --password=${{ secrets.USER_PASSWORD }}"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
@@ -39,7 +34,7 @@ jobs:
         with:
           python-version: "3.10"
 
-      # Set up environment variables from GitHub secrets
+      # Set up environment variables
       - name: Set up environment variables
         run: |
           echo "API_KEY=${{ secrets.API_KEY }}" >> $GITHUB_ENV
@@ -61,12 +56,12 @@ jobs:
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-      # Wait for MySQL to be ready before starting the app
+      # Wait for MySQL to be ready
       - name: Wait for MySQL to be ready
         run: |
           echo "Waiting for MySQL to be ready..."
           for i in {30..0}; do
-            if mysql -h 127.0.0.1 -u ${{ secrets.USER_NAME }} --password=${{ secrets.USER_PASSWORD }} -e 'SELECT 1' ${{ secrets.DATABASE_NAME }}; then
+            if mysql -h 127.0.0.1 -u root --password=${{ secrets.USER_PASSWORD }} -e 'SELECT 1' ${{ secrets.DATABASE_NAME }}; then
               echo "MySQL is ready!"
               exit 0
             fi
@@ -76,13 +71,13 @@ jobs:
           echo "MySQL failed to start!"
           exit 1
 
-      # Start the Flask app in the background
+      # Start Flask app
       - name: Start Flask app
         run: |
           nohup python main.py > flask.log 2>&1 &
           sleep 10  # Wait for the app to fully initialize
 
-      # Display Flask logs for debugging
+      # Display Flask logs
       - name: Display Flask logs
         run: cat flask.log
 
@@ -90,6 +85,6 @@ jobs:
       - name: Run API tests
         run: pytest tests/test_code.py
 
-      # Stop Flask app after tests are completed
+      # Stop Flask app
       - name: Stop Flask app
         run: pkill -f main.py || true
