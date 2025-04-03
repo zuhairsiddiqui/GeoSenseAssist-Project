@@ -1,12 +1,16 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Analysis</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             text-align: center;
-            margin: 0px;
-            padding: 0px;
+            margin: 0;
+            padding: 0;
         }
 
         .header-bar {
@@ -15,7 +19,7 @@
             color: white;
             text-align: left;
             padding: 20px 40px;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
             display: flex;
             justify-content: flex-start;
@@ -25,29 +29,72 @@
 
         .header-name {
             flex-grow: 1;
+            font-size: 30px; 
         }
 
         .header-buttons {
             display: flex;
-            gap: 10px;
+            gap: 12px;
         }
 
         .header-button {
             background-color: white;
             color: blue;
             border: none;
-            padding: 8px 14px;
+            padding: 12px 20px;
             border-radius: 6px;
-            font-size: 16px;
+            font-size: 22px; 
             font-weight: bold;
             cursor: pointer;
             text-decoration: none;
             text-align: center;
-            min-width: 80px;
+            min-width: 100px;
         }
 
         .header-button:hover {
-            background-color: #ddd;
+            background-color: #008000;
+        }
+
+        h1 {
+            font-size: 40px; 
+            font-weight: bold;
+            color: black;
+            margin-top: 20px;
+        }
+
+        h2 {
+            font-size: 30px; 
+            font-weight: bold;
+            color: black;
+            margin-top: 20px;
+        }
+
+        p {
+            font-size: 24px; 
+            color: black;
+            margin: 10px 0;
+        }
+
+        img {
+            max-width: 600px; 
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            font-size: 24px; 
+            padding: 14px 28px;
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #008000; 
         }
     </style>
 </head>
