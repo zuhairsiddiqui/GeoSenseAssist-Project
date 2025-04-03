@@ -51,7 +51,7 @@
         }
     </style>
 </head>
-
+    
 <body>
     <!-- Add the header bar from the "website" page -->
     <div class="header-bar">
@@ -66,5 +66,13 @@
     <p>Uploaded Graph File: {{ filename }}</p>
     <img src="{{ url_for('views.uploaded_file', filename=filename) }}" alt="Uploaded Graph Image" />
     <p>Analysis Result: {{ result }}</p>
+    
+    <h2>Click the button to hear analysis</h2>
+    <form action="/audio_analysis" method="POST">
+        <input type="hidden" name="result" value="{{ result }}">
+        <input type="hidden" name="file" value="{{ filename }}">
+        <input type="hidden" name="shape" value="{{ shape }}">
+        <button type="submit">Audio Analysis</button>
+    </form>
 </body>
 </html>
