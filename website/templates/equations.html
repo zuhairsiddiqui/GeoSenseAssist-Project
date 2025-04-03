@@ -109,8 +109,8 @@
         </div>
     </div>
 
-    <h1>Equation Analysis</h1>
-    <p>Uploaded Equation File: {{ filename }}</p>
+    <h1>Analysis</h1>
+    <p>Uploaded File: {{ filename }}</p>
     <img src="{{ url_for('views.uploaded_file', filename=filename) }}" alt="Uploaded Equation Image" />
     <p>Analysis Result: {{ result }}</p>
 

@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template, request, redirect, send_from_directory, url_for
+from flask import Flask, Blueprint, render_template, request, send_from_directory
 import mysql.connector
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
@@ -91,7 +91,7 @@ def upload_equation():
 
 @views.route('/audio_analysis', methods=['POST'])
 def audio_analysis():
-   result = request.form.get("result")
+   result = request.form.get("result").replace("*","")
    filename = request.form.get("file")
    shape = request.form.get("shape")
    audio = googleTTS.textToSpeech(result,filename)
