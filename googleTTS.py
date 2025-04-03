@@ -12,6 +12,7 @@ upload_dir = os.path.join(current_dir, "uploadsAudio")
 # Create the directory if it doesn't exist
 os.makedirs(upload_dir, exist_ok=True)
 
+# Create mp3 file from user input and return filename to access mp3 file
 def textToSpeech(userText, image):
     obj = gTTS(text=userText, lang='en', slow=False)
     filename = "uploadsAudio/" + image
