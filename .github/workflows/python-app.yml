@@ -17,7 +17,7 @@ jobs:
       mysql:
         image: mysql:latest
         ports:
-          - 5000:3306
+          - 3306:3306
         
     steps:
       # Checkout code from the repository
@@ -61,7 +61,7 @@ jobs:
               exit 0
             fi
             echo "Waiting..."
-            sleep 2
+            sleep 15
           done
           echo "MySQL failed to start!"
           exit 1
