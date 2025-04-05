@@ -13,11 +13,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:latest
-        ports:
-          - 3306:3306
+    # services:
+    #  mysql:
+    #    image: mysql:latest
+    #    ports:
+    #      - 3306:3306
         
     steps:
       # Checkout code from the repository
@@ -30,13 +30,25 @@ jobs:
           python-version: "3.10"
 
       # Set up environment variables
+      #- name: Set up environment variables
+      #  run: |
+      #    echo "API_KEY=${{ secrets.API_KEY }}" >> $GITHUB_ENV
+      #    echo "DB_HOST=127.0.0.1" >> $GITHUB_ENV
+      #    echo "DB_USER=${{ secrets.USER_NAME }}" >> $GITHUB_ENV
+      #    echo "DB_PASSWORD=${{ secrets.USER_PASSWORD }}" >> $GITHUB_ENV
+      #    echo "DB_NAME=${{ secrets.DATABASE_NAME }}" >> $GITHUB_ENV
+
       - name: Set up environment variables
         run: |
           echo "API_KEY=${{ secrets.API_KEY }}" >> $GITHUB_ENV
-          echo "DB_HOST=127.0.0.1" >> $GITHUB_ENV
-          echo "DB_USER=${{ secrets.USER_NAME }}" >> $GITHUB_ENV
-          echo "DB_PASSWORD=${{ secrets.USER_PASSWORD }}" >> $GITHUB_ENV
-          echo "DB_NAME=${{ secrets.DATABASE_NAME }}" >> $GITHUB_ENV
+          echo "MYSQL_PUBLIC_URL=${{ secrets.MYSQL_PUBLIC_URL }}" >> $GITHUB_ENV
+          echo "MYSQLHOST=${{ secrets.MYSQLHOST }}" >> $GITHUB_ENV
+          echo "MYSQLUSER=${{ secrets.MYSQLUSER }}" >> $GITHUB_ENV
+          echo "MYSQLPASSWORD=${{ secrets.MYSQLPASSWORD }}" >> $GITHUB_ENV
+          echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> $GITHUB_ENV
+          echo "MYSQLPORT=${{ secrets.MYSQLPORT }}" >> $GITHUB_ENV
+
+
 
       # Install required dependencies (flask, flake8, pytest, pygame, and MySQL connector)
       - name: Install dependencies
@@ -56,8 +68,7 @@ jobs:
         run: |
           echo "Waiting for MySQL to be ready..."
           for i in {30..0}; do
-            if mysql -h 127.0.0.1 -P 3306 -u ${{ secrets.USER_NAME }} --password=${{ secrets.USER_PASSWORD }} -e 'SELECT 1' ${{ secrets.DATABASE_NAME }}; then
-              echo "MySQL is ready!"
+            if mysql -h ${{ secrets.MYSQLHOST }} -P ${{ secrets.MYSQLPORT }} -u ${{ secrets.MYSQLUSER }} --password=${{ secrets.MYSQLPASSWORD }} -e 'SELECT 1' ${{ secrets.MYSQL_DATABASE }}; then
               exit 0
             fi
             echo "Waiting..."
