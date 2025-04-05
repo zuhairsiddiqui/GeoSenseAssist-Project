@@ -4,19 +4,22 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-HOST_NAME = os.getenv("HOST_NAME")
-USER_NAME = os.getenv("USER_NAME")
-USER_PASSWORD = os.getenv("USER_PASSWORD")
-DATABASE_NAME = os.getenv("DATABASE_NAME")
+MYSQLHOST = os.getenv("MYSQLHOST")
+MYSQLUSER = os.getenv("MYSQLUSER")
+MYSQLPASSWORD = os.getenv("MYSQLPASSWORD")
+MYSQL_DATABASE = os.getenv("MYSQL_DATABASE")
+MYSQLPORT = os.getenv("MYSQLPORT")
 
-mydb = mysql.connector.connect(
-        host=HOST_NAME,
-        user = USER_NAME,
-        password = USER_PASSWORD,
-        database=DATABASE_NAME
-    )
 
-cursor = mydb.cursor()
+conn = mysql.connector.connect(
+        host=MYSQLHOST,
+        user=MYSQLUSER,
+        password=MYSQLPASSWORD,
+        database=MYSQL_DATABASE,
+        port=MYSQLPORT
+  )
+
+cursor = conn.cursor()
 
 # Fetch data from table
 cursor.execute("SELECT * FROM equation_table")
@@ -55,4 +58,3 @@ for row in rows:
 
 # Close connection
 cursor.close()
-mydb.close()

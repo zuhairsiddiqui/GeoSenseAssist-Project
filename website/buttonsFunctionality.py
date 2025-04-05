@@ -114,17 +114,19 @@ def accessFilePath():
     return image, file_path
 
 def accessDatabase(sql,val):
-    HOST_NAME = os.getenv("HOST_NAME")
-    USER_NAME = os.getenv("USER_NAME")
-    USER_PASSWORD = os.getenv("USER_PASSWORD")
-    DATABASE_NAME = os.getenv("DATABASE_NAME")
+    
+    MYSQLHOST = os.getenv("MYSQLHOST")
+    MYSQLUSER = os.getenv("MYSQLUSER")
+    MYSQLPASSWORD = os.getenv("MYSQLPASSWORD")
+    MYSQL_DATABASE = os.getenv("MYSQL_DATABASE")
+    MYSQLPORT = os.getenv("MYSQLPORT")
     conn = mysql.connector.connect(
-        host=HOST_NAME,
-        user = USER_NAME,
-        password = USER_PASSWORD,
-        database=DATABASE_NAME
+            host=MYSQLHOST,
+            user=MYSQLUSER,
+            password=MYSQLPASSWORD,
+            database=MYSQL_DATABASE,
+            port=MYSQLPORT
     )
-
     cursor = conn.cursor()
     cursor.execute(sql, val)
     conn.commit()

@@ -7,23 +7,28 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Get database credentials from environment variables
-HOST_NAME = os.getenv("HOST_NAME")
-USER_NAME = os.getenv("USER_NAME")
-USER_PASSWORD = os.getenv("USER_PASSWORD")
-DATABASE_NAME = os.getenv("DATABASE_NAME")
+MYSQLHOST = os.getenv("MYSQLHOST")
+MYSQLUSER = os.getenv("MYSQLUSER")
+MYSQLPASSWORD = os.getenv("MYSQLPASSWORD")
+MYSQL_DATABASE = os.getenv("MYSQL_DATABASE")
+MYSQLPORT = os.getenv("MYSQLPORT")
+
 
 try:
     # First connection to create database if it doesn't exist
     conn = mysql.connector.connect(
-        host=HOST_NAME,
-        user = USER_NAME,
-        password = USER_PASSWORD
+            host=MYSQLHOST,
+            user=MYSQLUSER,
+            password=MYSQLPASSWORD,
+            database=MYSQL_DATABASE,
+            port=MYSQLPORT
     )
+
     cursor = conn.cursor()
     
     # Create database if it doesn't exist
-    cursor.execute(f"CREATE DATABASE IF NOT EXISTS {DATABASE_NAME}")
-    print(f"Database '{DATABASE_NAME}' created or already exists.")
+    cursor.execute(f"CREATE DATABASE IF NOT EXISTS {MYSQL_DATABASE}")
+    print(f"Database '{MYSQL_DATABASE}' created or already exists.")
     
     # Close initial connection
     cursor.close()
@@ -31,11 +36,13 @@ try:
     
     # Connect to the specific database
     conn = mysql.connector.connect(
-        host=HOST_NAME,
-        user = USER_NAME,
-        password = USER_PASSWORD,
-        database=DATABASE_NAME
+            host=MYSQLHOST,
+            user=MYSQLUSER,
+            password=MYSQLPASSWORD,
+            database=MYSQL_DATABASE,
+            port=MYSQLPORT
     )
+
     cursor = conn.cursor()
     
     # Begin transaction
