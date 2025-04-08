@@ -11,29 +11,81 @@
 <br />
 <div align="center">
   <a href="https://github.com/zuhairsiddiqui/GeoSenseAssist-Project/blob/main/README.md">
-    <img src="images/ReadMeLogo.png" alt="Logo" width="80" height="80">
+    <img src="images/ReadMeLogo.png" alt="Logo" width="20" height="20">
   </a>
 
  <h3 align="center">README</h3>
 
-# GeoSenseAssist-Project
+# GeoSense Assist
+ <p align="center">
+    <br />
+    <a href="https://github.com/users/zuhairsiddiqui/projects/1">Sprint 1</a>
+    &middot;
+    <a href="https://github.com/users/zuhairsiddiqui/projects/6">Sprint 2</a>
+    &middot;
+    <a href="https://github.com/users/zuhairsiddiqui/projects/7">Sprint 3</a>
+    &middot;
+    <a href="https://github.com/zuhairsiddiqui/GeoSenseAssist-Project/issues/new">Report Issues</a>
+  </p>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+
+<div align="center">
+
+<details>
+  <summary><strong> Table of Contents</strong></summary>
+  <ol style="list-style-position: inside; text-align: center;">
+    <li><a href="#About">About</a></li>
+    <li><a href="#Tech-Stack">Tech Stack</a></li>
+    <li><a href="#GeoSense-Instructions">GeoSense Instructions</a></li>
+  </ol>
+</details>
+
+</div>
+
+<!-- TEAM MEMBERS -->
+
+<div align="center">
+
+<h2>Team Members</h2>
+
+<ul style="list-style-position: inside; text-align: center;">
+  <li><strong>Zuhair Siddiqui</strong> – Project Lead / Fullstack</li>
+  <li><strong>Sangam Bartaula</strong> – Frontend / Website</li>
+  <li><strong>Andreas Paramo</strong> – Backend / Gemini API</li>
+  <li><strong>Anjali Fernando</strong> – Backend / Gemini API</li>
+  <li><strong>Tanvi Biswal</strong> – Backend / Google TTS</li>
+  <li><strong>Drew Daffern</strong> – Backend / Google TTS</li>
+</ul>
+
+</div>
 
 <!-- ABOUT THE PROJECT -->
+<div align="center">
+
 ## **About**
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 
-* ### Unlike other applications that focus on identifying generic items, GeoSense Assist is specifically tailored to help students visualize geometric concepts.
-* ### It provides text-to-speech descriptions, AI support, and geometric shape detection across devices.
-* ### The goal is to help students gain a full understanding of shapes, equations, and graphs.
+<div align="center">
+
+<ul style="list-style-position: inside; text-align: center;">
+  <li><strong>Unlike other applications that focus on identifying generic items, GeoSense Assist is specifically tailored to help students visualize geometric concepts.</strong></li>
+  <li><strong>It provides text-to-speech descriptions, AI support, and geometric shape detection across devices.</strong></li>
+  <li><strong>The goal is to help students gain a full understanding of shapes, equations, and graphs.</strong></li>
+</ul>
+
+</div>
+
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- Tech Stack -->
-## **Our Tech Stack:**
+## **Tech Stack:**
 Our main libraries and tools that we used:
 
 [![Flask](https://img.shields.io/badge/Flask-4CAF50?logo=flask)](https://flask.palletsprojects.com/)
@@ -52,7 +104,7 @@ Our main libraries and tools that we used:
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-## **How to run GeoSense**
+## **GeoSense Instructions**
 
 **step 1:**
 dowload mySQL community
