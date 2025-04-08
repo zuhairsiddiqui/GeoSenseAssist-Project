@@ -35,14 +35,15 @@
 
 <details>
   <summary><strong> Table of Contents</strong></summary>
-  <ol style="list-style-position: inside; text-align: center;">
-    <li><a href="#About">About</a></li>
-    <li><a href="#Tech-Stack">Tech Stack</a></li>
-    <li><a href="#GeoSense-Instructions">GeoSense Instructions</a></li>
+  <ol style="display: flex; justify-content: center; padding-left: 0;">
+    <li style="margin: 0 20px;"><a href="#About">About</a></li>
+    <li style="margin: 0 20px;"><a href="#Tech-Stack">Tech Stack</a></li>
+    <li style="margin: 0 20px;"><a href="#GeoSense-Instructions">GeoSense Instructions</a></li>
   </ol>
 </details>
 
 </div>
+
 
 <!-- TEAM MEMBERS -->
 
@@ -81,9 +82,6 @@
 
 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 <!-- Tech Stack -->
 ## **Tech Stack:**
 Our main libraries and tools that we used:
@@ -99,9 +97,6 @@ Our main libraries and tools that we used:
 [![PyTest](https://img.shields.io/badge/PyTest-red?logo=pytest)](https://docs.pytest.org/en/stable/)
 [![PyGame](https://img.shields.io/badge/PyGame-green?logo=pygame)](https://www.pygame.org/)
 
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 ## **GeoSense Instructions**
@@ -143,6 +138,7 @@ run main.py
 **step 9:**
 use the automated URL link that contains your IP address
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
