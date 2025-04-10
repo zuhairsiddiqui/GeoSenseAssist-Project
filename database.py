@@ -118,7 +118,7 @@ try:
     else:
         print(f"Table '{graph_tb}' already exists.")
 
-    # Create graph_table if it doesn't exist
+    # Create users_table if it doesn't exist
     users_tb = "users_table"
     cursor.execute(f"SHOW TABLES LIKE '{users_tb}'")
     result = cursor.fetchone()
