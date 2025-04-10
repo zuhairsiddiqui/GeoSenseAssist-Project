@@ -117,6 +117,25 @@ try:
         print(f"Table '{graph_tb}' was created successfully.")
     else:
         print(f"Table '{graph_tb}' already exists.")
+
+    # Create graph_table if it doesn't exist
+    users_tb = "users_table"
+    cursor.execute(f"SHOW TABLES LIKE '{users_tb}'")
+    result = cursor.fetchone()
+    
+    if not result:
+        create_table_query = f"""
+        CREATE TABLE {users_tb} (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(255),
+            password VARCHAR(255),
+            email VARCHAR(255)
+        );
+        """
+        cursor.execute(create_table_query)
+        print(f"Table '{users_tb}' was created successfully.")
+    else:
+        print(f"Table '{users_tb}' already exists.")
     
     # Commit all changes
     cursor.execute("COMMIT")
