@@ -1,5 +1,8 @@
-<!DOCTYPE html>
+<!DOCTYPE html> <!--https://www.w3schools.com/howto/tryit.asp?filename=tryhow_make_a_website_intro-->
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -48,13 +51,14 @@
         .header-button:hover {
             background-color: #008000;
         }
-
+        
         .button-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
-            width: 400px; /* Increased width for a wider layout */
-            margin: 100px auto;
+            width: 500px;
+            margin: 100px auto 20px auto;
+            justify-content: center;
         }
 
         .custom-button {
@@ -127,7 +131,7 @@
         <a href="/" class="header-name" style="text-decoration: none; color: white;">Geosense Assist</a>
         <div class="header-buttons">
             <a href="/login" class="header-button">Log In</a>
-            <a href="/sign-up" class="header-button">Sign Up</a>
+            <a href="/signup" class="header-button">Sign Up</a>
         </div>
     </div>
 
@@ -153,11 +157,16 @@
         <a href="/history" class="custom-button">Submission History</a>
     </div>
 
-    <div class="education-buttons">
-        <button type="button" class="circle-button" onclick="setEducationLevel('elementarylevel', this)">K-5</button>
-        <button type="button" class="circle-button" onclick="setEducationLevel('middlelevel', this)">6-12</button>
-        <button type="button" class="circle-button" onclick="setEducationLevel('collegelevel', this)">12+</button>
+    <div style="display: flex; justify-content: center; margin-top: 20px;">
+        <a href="/quiz" class="custom-button">Generate Quiz</a>
     </div>
+
+        <h2 style="margin-top: 40px; font-weight: bold;">Select Education Level</h2>
+        <div class="education-buttons">
+            <button type="button" class="circle-button" onclick="setEducationLevel('elementarylevel', this)">K-5</button>
+            <button type="button" class="circle-button" onclick="setEducationLevel('middlelevel', this)">6-12</button>
+            <button type="button" class="circle-button" onclick="setEducationLevel('collegelevel', this)">12+</button>
+        </div>
 
     <img id="image-preview" src="#" alt="Preview Image">
 

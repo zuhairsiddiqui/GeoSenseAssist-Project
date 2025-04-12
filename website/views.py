@@ -63,10 +63,6 @@ def login():
 def logout():
   return render_template("logout.html")
 
-@views.route('/sign-up')
-def signup():
-    return render_template("signup.html")
-
 @views.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_DIRECTORY'], filename)
@@ -101,3 +97,8 @@ def audio_analysis():
    pygame.mixer.music.load(audio)
    pygame.mixer.music.play()
    return render_template('Shapes.html', filename=shape, result=result)
+
+@views.route('/quiz')
+def quiz():
+    return render_template("quiz.html")
+

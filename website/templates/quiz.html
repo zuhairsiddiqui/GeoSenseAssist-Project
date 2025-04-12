@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Graph Analysis</title>
+    <title>Quiz Generator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,7 +29,7 @@
 
         .header-name {
             flex-grow: 1;
-            font-size: 30px; 
+            font-size: 30px;
         }
 
         .header-buttons {
@@ -43,7 +43,7 @@
             border: none;
             padding: 12px 20px;
             border-radius: 6px;
-            font-size: 22px; 
+            font-size: 22px;
             font-weight: bold;
             cursor: pointer;
             text-decoration: none;
@@ -55,46 +55,37 @@
             background-color: #008000;
         }
 
-        h1 {
-            font-size: 40px; 
-            font-weight: bold;
-            color: black;
-            margin-top: 20px;
+        .container {
+            margin-top: 80px;
         }
 
-        h2 {
-            font-size: 30px; 
+        h1 {
+            font-size: 40px;
             font-weight: bold;
             color: black;
-            margin-top: 20px;
+            margin-bottom: 10px;
         }
 
         p {
-            font-size: 24px; 
+            font-size: 24px;
             color: black;
-            margin: 10px 0;
+            margin: 20px 0;
         }
 
-        img {
-            max-width: 600px; 
-            margin-top: 20px;
-            border-radius: 10px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        button {
-            font-size: 24px; 
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
             padding: 14px 28px;
             background-color: blue;
             color: white;
-            border: none;
+            text-decoration: none;
             border-radius: 6px;
-            cursor: pointer;
-            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
         }
 
-        button:hover {
-            background-color: #008000; 
+        .back-button:hover {
+            background-color: #008000;
         }
     </style>
 </head>
@@ -103,21 +94,14 @@
         <a href="/" class="header-name" style="text-decoration: none; color: white;">Geosense Assist</a>
         <div class="header-buttons">
             <a href="/login" class="header-button">Log In</a>
-            <a href="/signup" class="header-button">Sign Up</a>
+            <a href="/sign-up" class="header-button">Sign Up</a>
         </div>
     </div>
 
-    <h1>Graph Analysis</h1>
-    <p><strong>Uploaded Graph File:</strong> {{ filename }}</p>
-    <img src="{{ url_for('views.uploaded_file', filename=filename) }}" alt="Uploaded Graph Image">
-    <p><strong>Analysis Result:</strong> {{ result }}</p>
-    
-    <h2>Click the button to hear analysis</h2>
-    <form action="/audio_analysis" method="POST">
-        <input type="hidden" name="result" value="{{ result }}">
-        <input type="hidden" name="file" value="{{ filename }}">
-        <input type="hidden" name="shape" value="{{ shape }}">
-        <button type="submit">Audio Analysis</button>
-    </form>
+    <div class="container">
+        <h1>Quiz Generator</h1>
+        <p>Feature coming soon! You’ll be able to generate custom quizzes based on your submission history</p>
+        <a href="/" class="back-button">Back to Home</a>
+    </div>
 </body>
 </html>
