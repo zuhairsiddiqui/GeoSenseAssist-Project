@@ -158,3 +158,5 @@ finally:
     if 'conn' in locals() and conn and conn.is_connected():
         conn.close()
         print("MySQL connection closed.")
+
+
