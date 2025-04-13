@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script>
-    //TODO - Javascript function to check the key pressed and route to flask if a valid keyboard shortcut was pressed will go here 
-        function changeAudio(event){
-            
-        }
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Graph Analysis</title>
@@ -120,6 +114,8 @@
     <img src="{{ url_for('views.uploaded_file', filename=filename) }}" alt="Uploaded Shape Image" />
     <p>Analysis Result: {{ result }}</p>
 
+    <input type="text" name="text" id="sample" />
+    
     <h2>Click the button to hear analysis</h2>
     <form action="/audio_analysis" method="POST">
         <input type="hidden" name="result" value="{{ result }}">
@@ -127,5 +123,11 @@
         <input type="hidden" name="shape" value="{{ shape }}">
         <button type="submit">Audio Analysis</button>
     </form>
+
+    <script>
+        document.body.addEventListener("keydown", function(event) {
+                console.log(event.keyCode);
+        });
+        </script>
 </body>
 </html>
