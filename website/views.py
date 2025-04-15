@@ -96,7 +96,7 @@ def audio_analysis():
    pygame.mixer.init()
    pygame.mixer.music.load(audio)
    pygame.mixer.music.play()
-   return render_template('Shapes.html', filename=shape, result=result)
+   return render_template('shapes.html', filename=shape, result=result)
 
 @views.route('/quiz')
 def quiz():
