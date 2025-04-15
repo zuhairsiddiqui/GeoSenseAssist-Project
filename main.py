@@ -11,7 +11,7 @@ if flask_env == "deployment":
 
     if __name__ == '__main__':
         print(f"Website is live at: https://geosenseassist-3f7440326683.herokuapp.com/")
-        app.run(host='0.0.0.0', port=port, debug=False)
+        app.run(host='0.0.0.0', port=port, debug=True)
 else:
     # Local Development Configuration (for when you run it locally)
     hostname = socket.gethostname()
