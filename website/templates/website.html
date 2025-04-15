@@ -29,6 +29,7 @@
         .header-name {
             flex-grow: 1;
         }
+
         .header-buttons {
             display: flex;
             gap: 10px;
@@ -46,12 +47,21 @@
             text-decoration: none;
             text-align: center;
             min-width: 80px;
+
+            /* btn-3 animation */
+            letter-spacing: 0.05rem;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s ease-in-out;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1;
         }
 
         .header-button:hover {
-            background-color: #008000;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transform: scale(0.95);
         }
-        
+
         .button-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -75,10 +85,19 @@
             align-items: center;
             justify-content: center;
             height: 80px;
+
+            /* btn-3 animation */
+            letter-spacing: 0.05rem;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s ease-in-out;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1;
         }
 
         .custom-button:hover {
-            background-color: #008000;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transform: scale(0.95);
         }
 
         .file-input {
@@ -106,10 +125,15 @@
             justify-content: center;
             cursor: pointer;
             text-decoration: none;
+
+            /* btn-4 animation */
+            transition: 0.3s all ease-in-out;
+            box-shadow: 0px 0px 0px 5px rgba(255, 255, 255, 0.95);
         }
 
         .circle-button:hover {
             background-color: rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.85);
         }
 
         .circle-button.selected {
@@ -161,32 +185,27 @@
         <a href="/quiz" class="custom-button">Generate Quiz</a>
     </div>
 
-        <h2 style="margin-top: 40px; font-weight: bold;">Select Education Level</h2>
-        <div class="education-buttons">
-            <button type="button" class="circle-button" onclick="setEducationLevel('elementarylevel', this)">K-5</button>
-            <button type="button" class="circle-button" onclick="setEducationLevel('middlelevel', this)">6-12</button>
-            <button type="button" class="circle-button" onclick="setEducationLevel('collegelevel', this)">12+</button>
-        </div>
+    <h2 style="margin-top: 40px; font-weight: bold;">Select Education Level</h2>
+    <div class="education-buttons">
+        <button type="button" class="circle-button" onclick="setEducationLevel('elementarylevel', this)">K-5</button>
+        <button type="button" class="circle-button" onclick="setEducationLevel('middlelevel', this)">6-12</button>
+        <button type="button" class="circle-button" onclick="setEducationLevel('collegelevel', this)">12+</button>
+    </div>
 
     <img id="image-preview" src="#" alt="Preview Image">
 
     <script>
-        
         function setEducationLevel(level, element) {
-            // Update all hidden input fields in forms (change the education levels for them)
             document.querySelectorAll("input[name='educationLevel']").forEach(input => {
                 input.value = level;
             });
 
-            // Reset button styles
             document.querySelectorAll(".circle-button").forEach(btn => {
                 btn.classList.remove("selected");
             });
 
-            // Highlight selected button for user
             element.classList.add("selected");
         }
-
 
         function previewImage(input) {
             const preview = document.getElementById('image-preview');
@@ -194,12 +213,10 @@
 
             if (file) {
                 const reader = new FileReader();
-
-                reader.onload = function() {
+                reader.onload = function () {
                     preview.src = reader.result;
                     preview.style.display = 'block';
                 }
-
                 reader.readAsDataURL(file);
             } else {
                 preview.src = '#';
