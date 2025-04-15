@@ -73,7 +73,7 @@ def uploaded_file(filename):
 def upload_shapes():
     education_level = request.form.get("educationLevel", "elementarylevel")
     shape, analysis = buttonsFunctionality.upload_shapes(education_level)
-    return render_template('Shapes.html', filename=shape, result=analysis)
+    return render_template('shapes.html', filename=shape, result=analysis)
 
 @views.route('/upload_graphs', methods=['POST'])
 def upload_graphs():
