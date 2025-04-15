@@ -116,6 +116,8 @@
 
     <input type="text" name="text" id="sample" />
     
+    <button onclick="playTTS()">Click me</button>
+
     <h2>Click the button to hear analysis</h2>
     <form action="/audio_analysis" method="POST">
         <input type="hidden" name="result" value="{{ result }}">
@@ -125,8 +127,21 @@
     </form>
 
     <script>
+        const tts = window.speechSynthesis;
+        function playTTS(input){
+            utterance = new SpeechSynthesisUtterance(input);
+            tts.speak(utterance);
+        }
+
         document.body.addEventListener("keydown", function(event) {
+                
                 console.log(event.keyCode);
+                if(event.keyCode === 80){
+                    tts.pause();
+                }
+                if(event.keyCode === 32){
+                    tts.resume();
+                }
         });
         </script>
 </body>

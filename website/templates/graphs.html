@@ -119,5 +119,24 @@
         <input type="hidden" name="shape" value="{{ shape }}">
         <button type="submit">Audio Analysis</button>
     </form>
+
+    <script>
+        const tts = window.speechSynthesis;
+        function playTTS(input){
+            utterance = new SpeechSynthesisUtterance(input);
+            tts.speak(utterance);
+        }
+
+        document.body.addEventListener("keydown", function(event) {
+                
+                console.log(event.keyCode);
+                if(event.keyCode === 80){
+                    tts.pause();
+                }
+                if(event.keyCode === 32){
+                    tts.resume();
+                }
+        });
+        </script>
 </body>
 </html>
