@@ -115,11 +115,32 @@
     <p>Analysis Result: {{ result }}</p>
 
     <h2>Click the button to hear analysis</h2>
-    <form action="/audio_analysis" method="POST">
-        <input type="hidden" name="result" value="{{ result }}">
-        <input type="hidden" name="file" value="{{ filename }}">
-        <input type="hidden" name="shape" value="{{ shape }}">
-        <button type="submit">Audio Analysis</button>
-    </form>
+    <button type="submit" onclick="playTTS()">Audio Analysis</button>
+
+    <script>
+        const tts = window.speechSynthesis;
+
+        function playTTS(){
+            const input = {{ result|tojson }}
+            utterance = new SpeechSynthesisUtterance(input);
+            tts.speak(utterance);
+        }
+
+        document.body.addEventListener("keydown", function(event) {
+                
+                console.log(event.keyCode);
+                if(event.keyCode === 80){
+                    if(tts.paused===false){
+                        tts.pause();
+                    } else if(tts.paused===true){
+                        tts.resume();
+                    }
+                }
+                if(event.keyCode === 82){
+                    tts.cancel();
+                    playTTS();
+                }
+        });
+        </script>
 </body>
 </html>

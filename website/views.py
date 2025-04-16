@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template, request, send_from_directory
+from flask import Flask, json, Blueprint, render_template, request, send_from_directory
 import mysql.connector
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
@@ -101,4 +101,5 @@ def audio_analysis():
 @views.route('/quiz')
 def quiz():
     return render_template("quiz.html")
+
 
