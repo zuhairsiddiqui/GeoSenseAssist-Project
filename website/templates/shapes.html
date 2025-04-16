@@ -136,6 +136,10 @@
                         tts.resume();
                     }
                 }
+                if(event.keyCode === 82){
+                    tts.cancel();
+                    playTTS();
+                }
         });
         </script>
 </body>
