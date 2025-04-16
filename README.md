@@ -65,7 +65,7 @@
 <!-- ABOUT THE PROJECT -->
 <div align="center">
 
-## **About**
+## **About Section**
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 

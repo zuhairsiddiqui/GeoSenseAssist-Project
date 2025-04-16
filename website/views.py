@@ -63,10 +63,6 @@ def login():
 def logout():
   return render_template("logout.html")
 
-@views.route('/sign-up')
-def signup():
-    return render_template("signup.html")
-
 @views.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_DIRECTORY'], filename)
@@ -77,7 +73,7 @@ def uploaded_file(filename):
 def upload_shapes():
     education_level = request.form.get("educationLevel", "elementarylevel")
     shape, analysis = buttonsFunctionality.upload_shapes(education_level)
-    return render_template('Shapes.html', filename=shape, result=analysis)
+    return render_template('shapes.html', filename=shape, result=analysis)
 
 @views.route('/upload_graphs', methods=['POST'])
 def upload_graphs():
@@ -100,5 +96,10 @@ def audio_analysis():
    pygame.mixer.init()
    pygame.mixer.music.load(audio)
    pygame.mixer.music.play()
-   return render_template('Shapes.html', filename=shape, result=result)
+   return render_template('shapes.html', filename=shape, result=result)
+
+@views.route('/quiz')
+def quiz():
+    return render_template("quiz.html")
+
 

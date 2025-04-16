@@ -1,5 +1,8 @@
-<!DOCTYPE html>
+<!DOCTYPE html> <!--https://www.w3schools.com/howto/tryit.asp?filename=tryhow_make_a_website_intro-->
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -53,8 +56,9 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
-            width: 400px; /* Increased width for a wider layout */
-            margin: 100px auto;
+            width: 500px;
+            margin: 100px auto 20px auto;
+            justify-content: center;
         }
 
         .custom-button {
@@ -119,6 +123,19 @@
             display: none;
         }
 
+        /* Animation styles added */
+        .animated-button {
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s ease-in-out;
+            z-index: 1;
+        }
+
+        .animated-button:hover {
+            transform: scale(0.95);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
     </style>
 </head>
 
@@ -126,8 +143,8 @@
     <div class="header-bar">
         <a href="/" class="header-name" style="text-decoration: none; color: white;">Geosense Assist</a>
         <div class="header-buttons">
-            <a href="/login" class="header-button">Log In</a>
-            <a href="/sign-up" class="header-button">Sign Up</a>
+            <a href="/login" class="header-button animated-button">Log In</a>
+            <a href="/signup" class="header-button animated-button">Sign Up</a>
         </div>
     </div>
 
@@ -135,36 +152,40 @@
         <form action="/upload_shapes" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="educationLevel" id="educationLevelShapes" value="elementarylevel">
             <input type="file" name="fileUpload" accept=".pdf,.jpg,.jpeg,.png" class="file-input" id="shapesFile" onchange="previewImage(this); this.form.submit()">
-            <label for="shapesFile" class="custom-button">Analyze Shapes</label>
+            <label for="shapesFile" class="custom-button animated-button">Analyze Shapes</label>
         </form>
 
         <form action="/upload_graphs" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="educationLevel" id="educationLevelGraphs" value="elementarylevel">
             <input type="file" name="fileUpload" accept=".pdf,.jpg,.jpeg,.png" class="file-input" id="graphsFile" onchange="previewImage(this); this.form.submit()">
-            <label for="graphsFile" class="custom-button">Analyze Graphs</label>
+            <label for="graphsFile" class="custom-button animated-button">Analyze Graphs</label>
         </form>
 
         <form action="/upload_equations" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="educationLevel" id="educationLevelEquations" value="elementarylevel">
             <input type="file" name="fileUpload" accept=".pdf,.jpg,.jpeg,.png" class="file-input" id="equationsFile" onchange="previewImage(this); this.form.submit()">
-            <label for="equationsFile" class="custom-button">Analyze Equations</label>
+            <label for="equationsFile" class="custom-button animated-button">Analyze Equations</label>
         </form>
 
-        <a href="/history" class="custom-button">Submission History</a>
+        <a href="/history" class="custom-button animated-button">Submission History</a>
     </div>
 
+    <div style="display: flex; justify-content: center; margin-top: 20px;">
+        <a href="/quiz" class="custom-button animated-button">Generate Quiz</a>
+    </div>
+
+    <h2 style="margin-top: 40px; font-weight: bold;">Select Education Level</h2>
     <div class="education-buttons">
-        <button type="button" class="circle-button" onclick="setEducationLevel('elementarylevel', this)">K-5</button>
-        <button type="button" class="circle-button" onclick="setEducationLevel('middlelevel', this)">6-12</button>
-        <button type="button" class="circle-button" onclick="setEducationLevel('collegelevel', this)">12+</button>
+        <button type="button" class="circle-button animated-button" onclick="setEducationLevel('elementarylevel', this)">K-5</button>
+        <button type="button" class="circle-button animated-button" onclick="setEducationLevel('middlelevel', this)">6-12</button>
+        <button type="button" class="circle-button animated-button" onclick="setEducationLevel('collegelevel', this)">12+</button>
     </div>
 
     <img id="image-preview" src="#" alt="Preview Image">
 
     <script>
-        
+        // Update all hidden input fields in forms (change the education levels for them)
         function setEducationLevel(level, element) {
-            // Update all hidden input fields in forms (change the education levels for them)
             document.querySelectorAll("input[name='educationLevel']").forEach(input => {
                 input.value = level;
             });
@@ -178,7 +199,7 @@
             element.classList.add("selected");
         }
 
-
+        // Show a preview of the uploaded image
         function previewImage(input) {
             const preview = document.getElementById('image-preview');
             const file = input.files[0];
@@ -186,7 +207,7 @@
             if (file) {
                 const reader = new FileReader();
 
-                reader.onload = function() {
+                reader.onload = function () {
                     preview.src = reader.result;
                     preview.style.display = 'block';
                 }

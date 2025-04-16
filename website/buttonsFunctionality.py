@@ -83,7 +83,7 @@ def upload_equation(education_level):
     print("acquired variables")
     table = 'equation_table'
 
-    sql = f"INSERT INTO {table} (equation_type, num_of_terms, highest_Degree, overall_analysis) VALUES (%s,%s,%s,%s)"
+    sql = f"INSERT INTO {table} (equation_type, num_of_terms, highest_Degree, overall_Analysis) VALUES (%s,%s,%s,%s)"
     val = (equation,numOfTerms, highest_deg, analysis)
     accessDatabase(sql, val)
 

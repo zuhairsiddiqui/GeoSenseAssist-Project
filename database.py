@@ -117,6 +117,47 @@ try:
         print(f"Table '{graph_tb}' was created successfully.")
     else:
         print(f"Table '{graph_tb}' already exists.")
+
+    # Create users_table if it doesn't exist
+    users_tb = "users_table"
+    cursor.execute(f"SHOW TABLES LIKE '{users_tb}'")
+    result = cursor.fetchone()
+    
+    if not result:
+        create_table_query = f"""
+        CREATE TABLE {users_tb} (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(255),
+            password VARCHAR(255),
+            email VARCHAR(255)
+        );
+        """
+        cursor.execute(create_table_query)
+        print(f"Table '{users_tb}' was created successfully.")
+    else:
+        print(f"Table '{users_tb}' already exists.")
+
+     # Create quiz_table if it doesn't exist
+    quiz_tb = "quiz_table"
+    cursor.execute(f"SHOW TABLES LIKE '{quiz_tb}'")
+    result = cursor.fetchone()
+    
+    if not result:
+        create_table_query = f"""
+        CREATE TABLE {quiz_tb} (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            question_1 VARCHAR(255),
+            question_2 VARCHAR(255),
+            question_3 VARCHAR(255),
+            question_4 VARCHAR(255),
+            question_5 VARCHAR(255),
+            score VARCHAR(255)
+        );
+        """
+        cursor.execute(create_table_query)
+        print(f"Table '{quiz_tb}' was created successfully.")
+    else:
+        print(f"Table '{quiz_tb}' already exists.")
     
     # Commit all changes
     cursor.execute("COMMIT")
@@ -139,3 +180,5 @@ finally:
     if 'conn' in locals() and conn and conn.is_connected():
         conn.close()
         print("MySQL connection closed.")
+
+
