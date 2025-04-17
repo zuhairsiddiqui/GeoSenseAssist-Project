@@ -27,9 +27,8 @@ spec.loader.exec_module(ImageDetection)
 app = Flask(__name__)
 
 app.config['UPLOAD_DIRECTORY'] = 'uploads/'
-parentFolder = 'GeoSenseAssist-Project/'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16 MB
-upload_dir = os.path.join(parentFolder,app.config['UPLOAD_DIRECTORY'])
+upload_dir = os.path.join('uploads')
 os.makedirs(upload_dir, exist_ok=True)
 views = Blueprint('views', __name__)
 

@@ -65,7 +65,9 @@ def logout():
 
 @views.route('/uploads/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_DIRECTORY'], filename)
+    uploads_path = os.path.join(os.path.dirname(__file__), '..', 'uploads')
+    return send_from_directory(uploads_path, filename)
+
 
 # value = request.form.get(key, default=None), key being educationLevel which we get, and the elementary level being the default.
 
