@@ -25,6 +25,8 @@
     &middot;
     <a href="https://github.com/users/zuhairsiddiqui/projects/7">Sprint 3</a>
     &middot;
+    <a href="https://geosenseassist-3f7440326683.herokuapp.com/">Project Link</a>
+    &middot;
     <a href="https://github.com/zuhairsiddiqui/GeoSenseAssist-Project/issues/new">Report Issues</a>
   </p>
 </div>
