@@ -147,6 +147,59 @@
             <a href="/signup" class="header-button animated-button">Sign Up</a>
         </div>
     </div>
+    <button id="start-recording" class="custom-button animated-button" style="margin: 20px auto;">Voice Navigation</button>
+    <script>
+        const button = document.getElementById('start-recording');
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'en-US';
+
+        button.addEventListener('click', () => {
+            recognition.start();
+        });
+
+        recognition.onresult = (event) => {
+            const command = event.results[0][0].transcript.toLowerCase();
+            console.log('Heard:', command);
+
+            if (command.includes('analyze shapes')) {
+                window.location.href = '/analyze-shapes';
+            }
+            else if (command.includes('analyze graphs')) {
+                window.location.href = '/analyze-graphs';
+            }
+            else if (command.includes('analyze equations')) {
+                window.location.href = '/analyze-equations';
+            }
+            else if (command.includes('submission history')) {
+                window.location.href = '/submission-history';
+            }
+            else if (command.includes('generate quiz')) {
+                window.location.href = '/generate-quiz';
+            }
+            else if (command.includes('login')) {
+                window.location.href = '/login';
+            }
+            else if (command.includes('sign up')) {
+                window.location.href = '/signup';
+            }
+            else if (command.includes('home') || command.includes('return')) {
+                window.location.href = '/';
+            }
+            else {
+                const speech = new SpeechSynthesisUtterance('Command not recognized');
+                speechSynthesis.speak(speech);
+                console.log('Command not recognized.');
+            }
+        };
+
+        recognition.onstart = () => {
+            console.log('Voice recognition started.');
+        };
+
+        recognition.onerror = (event) => {
+            console.error('Error occurred in recognition:', event.error);
+        };
+    </script>
 
     <div class="button-container">
         <form action="/upload_shapes" method="POST" enctype="multipart/form-data">
