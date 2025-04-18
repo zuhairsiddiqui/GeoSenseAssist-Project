@@ -253,24 +253,21 @@
         }
 
         // Show a preview of the uploaded image
-        function previewImage(input) {
-            const preview = document.getElementById('image-preview');
-            const file = input.files[0];
+    function previewImage(input) {
+        const file = input.files[0];
+        if (!file) return;
 
-            if (file) {
-                const reader = new FileReader();
+        const preview = document.getElementById('image-preview');
+        const reader = new FileReader();
 
-                reader.onload = function () {
-                    preview.src = reader.result;
-                    preview.style.display = 'block';
-                }
+        reader.onload = function () {
+            preview.src = reader.result;
+            preview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+        
+    }
 
-                reader.readAsDataURL(file);
-            } else {
-                preview.src = '#';
-                preview.style.display = 'none';
-            }
-        }
     </script>
 </body>
 </html>

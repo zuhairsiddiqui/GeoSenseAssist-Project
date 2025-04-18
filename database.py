@@ -49,75 +49,25 @@ try:
     cursor.execute("START TRANSACTION")
     
     # Create shape_table if it doesn't exist
-    shape_tb = "shape_table"
-    cursor.execute(f"SHOW TABLES LIKE '{shape_tb}'")
+    history_tb = "history_table"
+    cursor.execute(f"SHOW TABLES LIKE '{history_tb}'") 
     result = cursor.fetchone()
-    
-    if not result:
-        create_table_query = f"""
-        CREATE TABLE {shape_tb} (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            shape VARCHAR(255) NOT NULL,
-            num_of_Sides VARCHAR(255),
-            num_of_Angles VARCHAR(255),
-            size_of_Angles VARCHAR(255),
-            size_lengths VARCHAR(255),
-            overall_Analysis VARCHAR(1000),
-            link VARCHAR(1000)
-        );
-        """
-        cursor.execute(create_table_query)
-        print(f"Table '{shape_tb}' was created successfully.")
-    else:
-        print(f"Table '{shape_tb}' already exists.")
-    
-    # Create equation_table if it doesn't exist
-    equation_tb = "equation_table"
-    cursor.execute(f"SHOW TABLES LIKE '{equation_tb}'")
-    result = cursor.fetchone()
-    
-    if not result:
-        create_table_query = f"""
-        CREATE TABLE {equation_tb} (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            equation_type VARCHAR(255) NOT NULL,
-            num_of_Terms VARCHAR(255),
-            highest_Degree VARCHAR(255),
-            size_of_Angles VARCHAR(255),
-            size_lengths VARCHAR(255),
-            overall_Analysis VARCHAR(1000),
-            link VARCHAR(1000)
-        );
-        """
-        cursor.execute(create_table_query)
-        print(f"Table '{equation_tb}' was created successfully.")
-    else:
-        print(f"Table '{equation_tb}' already exists.")
-    
-    # Create graph_table if it doesn't exist
-    graph_tb = "graph_table"
-    cursor.execute(f"SHOW TABLES LIKE '{graph_tb}'")
-    result = cursor.fetchone()
-    
-    if not result:
-        create_table_query = f"""
-        CREATE TABLE {graph_tb} (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            graph_type VARCHAR(255) NOT NULL,
-            x_axis VARCHAR(255),
-            y_axis VARCHAR(255),
-            overall_Analysis VARCHAR(1000),
-            link VARCHAR(1000)
-        );
-        """
-        cursor.execute(create_table_query)
-        print(f"Table '{graph_tb}' was created successfully.")
-    else:
-        print(f"Table '{graph_tb}' already exists.")
 
+    if not result:
+        create_table_query = f"""
+            CREATE TABLE {history_tb} (
+
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            analysis_type VARCHAR(255),
+            analysis VARCHAR(1000),
+            image_url VARCHAR(1000)
+            );
+        """
+        cursor.execute(create_table_query)
+        print(f"Table '{history_tb}' was created successfully.")
+    else:
+        print(f"Table '{history_tb}' already exists.")
+    
     # Create users_table if it doesn't exist
     users_tb = "users_table"
     cursor.execute(f"SHOW TABLES LIKE '{users_tb}'")
@@ -136,6 +86,7 @@ try:
         print(f"Table '{users_tb}' was created successfully.")
     else:
         print(f"Table '{users_tb}' already exists.")
+    
     # Commit all changes
     cursor.execute("COMMIT")
     print("Database and tables created successfully!")
