@@ -1,0 +1,201 @@
+<!DOCTYPE html> <!--https://www.w3schools.com/howto/tryit.asp?filename=tryhow_make_a_website_intro-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .header-bar {
+            width: 100%;
+            background-color: blue;
+            color: white;
+            text-align: left;
+            padding: 20px 40px;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .header-name {
+            flex-grow: 1;
+        }
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-button {
+            background-color: white;
+            color: blue;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .header-button:hover {
+            background-color: #008000;
+        }
+
+        .button-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 500px;
+            margin: 100px auto 20px auto;
+            justify-content: center;
+        }
+
+        .custom-button {
+            padding: 20px;
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 80px;
+        }
+
+        .custom-button:hover {
+            background-color: #008000;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .education-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .circle-button {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid black;
+            background-color: #FFFFFF;
+            color: black;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .circle-button:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .circle-button.selected {
+            background-color: black;
+            color: white;
+        }
+
+        #image-preview {
+            max-width: 500px;
+            margin: 20px auto;
+            display: none;
+        }
+
+        /* Animation styles added */
+        .animated-button {
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s ease-in-out;
+            z-index: 1;
+        }
+
+        .animated-button:hover {
+            transform: scale(0.95);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="header-bar">
+        <a href="/" class="header-name" style="text-decoration: none; color: white;">Geosense Assist</a>
+        <div class="header-buttons">
+            <a href="/login" class="header-button animated-button">Log In</a>
+            <a href="/signup" class="header-button animated-button">Sign Up</a>
+        </div>
+    </div>
+    <button id="start-recording" class="custom-button animated-button" style="margin: 20px auto;">Voice Navigation</button>
+    <script>
+        const button = document.getElementById('start-recording');
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'en-US';
+
+        button.addEventListener('click', () => {
+            recognition.start();
+        });
+
+        recognition.onresult = (event) => {
+            const command = event.results[0][0].transcript.toLowerCase();
+            console.log('Heard:', command);
+
+            if (command.includes('analyze shapes')) {
+                window.location.href = '/analyze-shapes';
+            }
+            else if (command.includes('analyze graphs')) {
+                window.location.href = '/analyze-graphs';
+            }
+            else if (command.includes('analyze equations')) {
+                window.location.href = '/analyze-equations';
+            }
+            else if (command.includes('submission history')) {
+                window.location.href = '/submission-history';
+            }
+            else if (command.includes('generate quiz')) {
+                window.location.href = '/generate-quiz';
+            }
+            else if (command.includes('login')) {
+                window.location.href = '/login';
+            }
+            else if (command.includes('sign up')) {
+                window.location.href = '/signup';
+            }
+            else if (command.includes('home') || command.includes('return')) {
+                window.location.href = '/';
+            }
+            else {
+                const speech = new SpeechSynthesisUtterance('Command not recognized');
+                speechSynthesis.speak(speech);
+                console.log('Command not recognized.');
+            }
+        };
+
+        recognition.onstart = () => {
+            console.log('Voice recognition started.');
+        };
+
+        recognition.onerror = (event) => {
+            console.error('Error occurred in recognition:', event.error);
+        };

@@ -22,7 +22,7 @@ conn = mysql.connector.connect(
 cursor = conn.cursor()
 
 # Fetch data from table
-cursor.execute("SELECT * FROM equation_table")
+cursor.execute("SELECT * FROM history_table")
 
 # Get all rows
 rows = cursor.fetchall()
@@ -33,27 +33,6 @@ for row in rows:
 
 print("--------------------------------------------------------------------------")
 
-# Fetch data from table
-cursor.execute("SELECT * FROM shape_table")
-
-# Get all rows
-rows = cursor.fetchall()
-
-# Display data
-for row in rows:
-    print(row)
-
-print("----------------------------------------------------------------------------")
-
-# Fetch data from table
-cursor.execute("SELECT * FROM graph_table")
-
-# Get all rows
-rows = cursor.fetchall()
-
-# Display data
-for row in rows:
-    print(row)
 
 
 # Close connection
