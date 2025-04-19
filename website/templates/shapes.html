@@ -49,10 +49,21 @@
             text-decoration: none;
             text-align: center;
             min-width: 100px;
+
+            /* Animation */
+            letter-spacing: 0.05rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease-in-out;
+            z-index: 1;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .header-button:hover {
+            transform: scale(0.95);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             background-color: #008000;
+            color: white;
         }
 
         h1 {
@@ -91,9 +102,19 @@
             border-radius: 6px;
             cursor: pointer;
             margin-top: 20px;
+
+            /* Animation */
+            letter-spacing: 0.05rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease-in-out;
+            z-index: 1;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         button:hover {
+            transform: scale(0.95);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             background-color: #008000; 
         }
     </style>
@@ -187,6 +208,6 @@
                 });
         }
 
-        </script>
+    </script>
 </body>
 </html>

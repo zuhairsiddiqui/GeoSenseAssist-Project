@@ -1,4 +1,4 @@
-<!DOCTYPE html> <!--https://www.w3schools.com/howto/tryit.asp?filename=tryhow_make_a_website_intro-->
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,7 +18,7 @@
             color: white;
             text-align: left;
             padding: 20px 40px;
-            font-size: 24px;
+            font-size: 28px; /* Increased font size to match the second example */
             font-weight: bold;
             display: flex;
             justify-content: flex-start;
@@ -28,28 +28,41 @@
 
         .header-name {
             flex-grow: 1;
+            font-size: 30px;  /* Increased font size to match the second example */
         }
+
         .header-buttons {
             display: flex;
-            gap: 10px;
+            gap: 12px;
         }
 
         .header-button {
             background-color: white;
             color: blue;
             border: none;
-            padding: 8px 14px;
+            padding: 12px 20px; /* Increased padding for buttons */
             border-radius: 6px;
-            font-size: 16px;
+            font-size: 22px; /* Increased font size to match the second example */
             font-weight: bold;
             cursor: pointer;
             text-decoration: none;
             text-align: center;
-            min-width: 80px;
+            min-width: 100px;
+
+            /* Animation */
+            letter-spacing: 0.05rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease-in-out;
+            z-index: 1;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .header-button:hover {
+            transform: scale(0.95);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             background-color: #008000;
+            color: white;
         }
 
         .button-container {
@@ -68,7 +81,7 @@
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 22px; /* Increased font size for consistency */
             font-weight: bold;
             text-decoration: none;
             display: flex;
@@ -99,7 +112,7 @@
             border: 2px solid black;
             background-color: #FFFFFF;
             color: black;
-            font-size: 16px;
+            font-size: 22px;  /* Increased font size for circle buttons */
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -122,20 +135,6 @@
             margin: 20px auto;
             display: none;
         }
-
-        /* Animation styles added */
-        .animated-button {
-            position: relative;
-            overflow: hidden;
-            transition: 0.3s ease-in-out;
-            z-index: 1;
-        }
-
-        .animated-button:hover {
-            transform: scale(0.95);
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
     </style>
 </head>
 
@@ -143,131 +142,73 @@
     <div class="header-bar">
         <a href="/" class="header-name" style="text-decoration: none; color: white;">Geosense Assist</a>
         <div class="header-buttons">
-            <a href="/login" class="header-button animated-button">Log In</a>
-            <a href="/signup" class="header-button animated-button">Sign Up</a>
+            <a href="/login" class="header-button">Log In</a>
+            <a href="/signup" class="header-button">Sign Up</a>
         </div>
     </div>
-    <button id="start-recording" class="custom-button animated-button" style="margin: 20px auto;">Voice Navigation</button>
-    <script>
-        const button = document.getElementById('start-recording');
-        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        recognition.lang = 'en-US';
-
-        button.addEventListener('click', () => {
-            recognition.start();
-        });
-
-        recognition.onresult = (event) => {
-            const command = event.results[0][0].transcript.toLowerCase();
-            console.log('Heard:', command);
-
-            if (command.includes('analyze shapes')) {
-                window.location.href = '/analyze-shapes';
-            }
-            else if (command.includes('analyze graphs')) {
-                window.location.href = '/analyze-graphs';
-            }
-            else if (command.includes('analyze equations')) {
-                window.location.href = '/analyze-equations';
-            }
-            else if (command.includes('submission history')) {
-                window.location.href = '/submission-history';
-            }
-            else if (command.includes('generate quiz')) {
-                window.location.href = '/generate-quiz';
-            }
-            else if (command.includes('login')) {
-                window.location.href = '/login';
-            }
-            else if (command.includes('sign up')) {
-                window.location.href = '/signup';
-            }
-            else if (command.includes('home') || command.includes('return')) {
-                window.location.href = '/';
-            }
-            else {
-                const speech = new SpeechSynthesisUtterance('Command not recognized');
-                speechSynthesis.speak(speech);
-                console.log('Command not recognized.');
-            }
-        };
-
-        recognition.onstart = () => {
-            console.log('Voice recognition started.');
-        };
-
-        recognition.onerror = (event) => {
-            console.error('Error occurred in recognition:', event.error);
-        };
-    </script>
+    <button id="start-recording" class="custom-button" style="margin: 20px auto;">Voice Navigation</button>
 
     <div class="button-container">
         <form action="/upload_shapes" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="educationLevel" id="educationLevelShapes" value="elementarylevel">
             <input type="file" name="fileUpload" accept=".pdf,.jpg,.jpeg,.png" class="file-input" id="shapesFile" onchange="previewImage(this); this.form.submit()">
-            <label for="shapesFile" class="custom-button animated-button">Analyze Shapes</label>
+            <label for="shapesFile" class="custom-button">Analyze Shapes</label>
         </form>
 
         <form action="/upload_graphs" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="educationLevel" id="educationLevelGraphs" value="elementarylevel">
             <input type="file" name="fileUpload" accept=".pdf,.jpg,.jpeg,.png" class="file-input" id="graphsFile" onchange="previewImage(this); this.form.submit()">
-            <label for="graphsFile" class="custom-button animated-button">Analyze Graphs</label>
+            <label for="graphsFile" class="custom-button">Analyze Graphs</label>
         </form>
 
         <form action="/upload_equations" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="educationLevel" id="educationLevelEquations" value="elementarylevel">
             <input type="file" name="fileUpload" accept=".pdf,.jpg,.jpeg,.png" class="file-input" id="equationsFile" onchange="previewImage(this); this.form.submit()">
-            <label for="equationsFile" class="custom-button animated-button">Analyze Equations</label>
+            <label for="equationsFile" class="custom-button">Analyze Equations</label>
         </form>
 
-        <a href="/history" class="custom-button animated-button">Submission History</a>
+        <a href="/history" class="custom-button">Submission History</a>
     </div>
 
     <div style="display: flex; justify-content: center; margin-top: 20px;">
-        <a href="/quiz" class="custom-button animated-button">Generate Quiz</a>
+        <a href="/quiz" class="custom-button">Generate Quiz</a>
     </div>
 
-    <h2 style="margin-top: 40px; font-weight: bold;">Select Education Level</h2>
+    <h2 style="margin-top: 40px;">Select Education Level</h2>
     <div class="education-buttons">
-        <button type="button" class="circle-button animated-button" onclick="setEducationLevel('elementarylevel', this)">K-5</button>
-        <button type="button" class="circle-button animated-button" onclick="setEducationLevel('middlelevel', this)">6-12</button>
-        <button type="button" class="circle-button animated-button" onclick="setEducationLevel('collegelevel', this)">12+</button>
+        <button type="button" class="circle-button" onclick="setEducationLevel('elementarylevel', this)">K-5</button>
+        <button type="button" class="circle-button" onclick="setEducationLevel('middlelevel', this)">6-12</button>
+        <button type="button" class="circle-button" onclick="setEducationLevel('collegelevel', this)">12+</button>
     </div>
 
     <img id="image-preview" src="#" alt="Preview Image">
 
     <script>
-        // Update all hidden input fields in forms (change the education levels for them)
         function setEducationLevel(level, element) {
             document.querySelectorAll("input[name='educationLevel']").forEach(input => {
                 input.value = level;
             });
 
-            // Reset button styles
             document.querySelectorAll(".circle-button").forEach(btn => {
                 btn.classList.remove("selected");
             });
 
-            // Highlight selected button for user
             element.classList.add("selected");
         }
 
-        // Show a preview of the uploaded image
-    function previewImage(input) {
-        const file = input.files[0];
-        if (!file) return;
+        function previewImage(input) {
+            const file = input.files[0];
+            if (!file) return;
 
-        const preview = document.getElementById('image-preview');
-        const reader = new FileReader();
+            const preview = document.getElementById('image-preview');
+            const reader = new FileReader();
 
-        reader.onload = function () {
-            preview.src = reader.result;
-            preview.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-        
-    }
-
+            reader.onload = function () {
+                preview.src = reader.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
     </script>
 </body>
 </html>
