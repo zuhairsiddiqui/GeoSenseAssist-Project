@@ -31,8 +31,15 @@ chat_session = model.start_chat(history=[])
 def generate_quiz_from_image(image_path):
     img = PIL.Image.open(image_path)
     prompt = """
-    Based on this image, generate a 5-question multiple-choice quiz.
-    Include 4 answer options (A–D)
+    Carefully analyze the uploaded image.
+
+    If the image is math-related,
+    generate a 5-question multiple-choice quiz based solely on the math content in the image.
+
+    Each question must be clearly math-related and have 4 answer options labeled A–D.
+
+    Do not show or mention the correct answers.
+    If the image is not math-related, respond with: "This image is not math-related."
     """
     response = model.generate_content([prompt, img])
     return response.text
