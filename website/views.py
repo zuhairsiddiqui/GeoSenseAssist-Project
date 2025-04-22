@@ -88,17 +88,6 @@ def upload_equation():
   equation, analysis = buttonsFunctionality.upload_equation(education_level)
   return render_template('equations.html', filename=equation, result=analysis)
 
-@views.route('/audio_analysis', methods=['POST'])
-def audio_analysis():
-   result = request.form.get("result").replace("*","")
-   filename = request.form.get("file")
-   shape = request.form.get("shape")
-   audio = googleTTS.textToSpeech(result,filename)
-   pygame.mixer.init()
-   pygame.mixer.music.load(audio)
-   pygame.mixer.music.play()
-   return render_template('shapes.html', filename=shape, result=result)
-
 @views.route('/quiz')
 def quiz():
     return render_template("quiz.html")
