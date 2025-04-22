@@ -28,7 +28,6 @@ def signup():
     if request.method == 'POST':
         # Get form data when user presses submit
         email = request.form.get('email')
-        username = request.form.get('first')
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
 
@@ -55,8 +54,8 @@ def signup():
 
         # Insert new user
         cursor.execute(
-            "INSERT INTO users_table (email, username, password) VALUES (%s, %s, %s)",
-            (email, username, password)
+            "INSERT INTO users_table (email, password) VALUES (%s, %s)",
+            (email, password)
         )
         conn.commit()
         cursor.close()
