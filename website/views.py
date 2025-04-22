@@ -104,10 +104,15 @@ def submit():
 
 @views.route('/')
 def getHistoryData():
-   cursor.execute("SELECT email, created_at, analysis_type, analysis FROM history_table")
-   rows = cursor.fetchall()
-   print(rows)
-   return render_template('history.html', entries=rows)
+    conn = get_mysql_connection()
+    if conn is None:
+        return "Database connection failed", 500
+
+    cursor = conn.cursor()
+    cursor.execute("SELECT email, created_at, analysis_type, analysis FROM history_table")
+    rows = cursor.fetchall()
+    print(rows)
+    return render_template('history.html', entries=rows)
 
 @views.route('/history')
 def submissionHistory():
