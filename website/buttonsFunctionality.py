@@ -48,13 +48,13 @@ def upload_shapes(education_level):
     print(primary_key)
     image, file_path = accessFilePath()
     URL = upload_to_imgur(file_path)
-    analysis_type = ImageDetection.analyze_image_geometry(file_path, "Provide only the name this shape")
-    analysis  = ImageDetection.analyze_image_geometry(file_path, "Analyze the geometry of the shape according to the education level of" + education_level + "within 999 characters.")
+    analysis_type = ImageDetection.analyze_image_geometry(file_path, "Provide what type of analysis it is (Shape, Graph, or Equation) (One Word)")
+    analysis  = ImageDetection.analyze_image_geometry(file_path, "Analyze the geometry of the shape according to the education level of" + education_level + "within 999 characters. Keep in mind the user is blind, keep responses to a minimal, only facts.")
 
     print("acquired variables")
 
     table = 'history_table'
-    sql = f"INSERT INTO {table} (email, analysis_type, analysis,image_url) VALUES (%s, %s,%s, %s)"
+    sql = f"INSERT INTO {table} (email, analysis_type, analysis,image_url) VALUES (%s, %s, %s, %s)"
     val = (primary_key, analysis_type, analysis, URL)
     accessDatabase(sql, val)
     print("successfully added")
@@ -66,8 +66,8 @@ def upload_graph(education_level):
     print(primary_key)
     image, file_path = accessFilePath()
     URL = upload_to_imgur(file_path)
-    graph = ImageDetection.analyze_image_geometry(file_path, "Provide only what type of graph it is.")
-    analysis  = ImageDetection.analyze_image_geometry(file_path, "Analyze the graph according to the education level of" + education_level + "within 999 characters.")
+    graph = ImageDetection.analyze_image_geometry(file_path, "Provide what type of analysis it is (Shape, Graph, or Equation) (One Word)")
+    analysis  = ImageDetection.analyze_image_geometry(file_path, "Analyze the graph according to the education level of" + education_level + "within 999 characters. Keep in mind the user is blind, keep responses to a minimal, only facts.")
     print("acquired variables")
     table = 'history_table'
     sql = f"INSERT INTO {table} (email, analysis_type, analysis,image_url) VALUES (%s, %s,%s, %s)"
@@ -85,8 +85,8 @@ def upload_equation(education_level):
     print(primary_key)
     image, file_path = accessFilePath()
     URL = upload_to_imgur(file_path)
-    analysis_type = ImageDetection.analyze_image_geometry(file_path, "Provide only what kind of equation it is.")
-    analysis = ImageDetection.analyze_image_geometry(file_path, "Analyze the equation according to the education level of" + education_level + "within 999 characters.")
+    analysis_type = ImageDetection.analyze_image_geometry(file_path, "Provide what type of analysis it is (Shape, Graph, or Equation) (One Word)")
+    analysis = ImageDetection.analyze_image_geometry(file_path, "Analyze the equation according to the education level of" + education_level + "within 999 characters. Keep in mind the user is blind, keep responses to a minimal, only facts.")
     print("acquired variables")
     table = 'history_table'
 
