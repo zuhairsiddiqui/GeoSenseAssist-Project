@@ -8,7 +8,7 @@ import os
 import importlib.util
 from dotenv import load_dotenv
 import sys
-
+import time
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(parent_dir)
 
@@ -34,8 +34,18 @@ upload_dir = os.path.join('uploads')
 os.makedirs(upload_dir, exist_ok=True)
 views = Blueprint('views', __name__)
 
-def upload_shapes(education_level):
 
+primKey = None
+def setPrimaryKey(pKey):
+    global primKey 
+    primKey = pKey
+
+def getPrimaryKey():
+    return primKey
+
+def upload_shapes(education_level):
+    primary_key = getPrimaryKey()
+    print(primary_key)
     image, file_path = accessFilePath()
     URL = upload_to_imgur(file_path)
     analysis_type = ImageDetection.analyze_image_geometry(file_path, "Provide only the name this shape")
@@ -44,23 +54,24 @@ def upload_shapes(education_level):
     print("acquired variables")
 
     table = 'history_table'
-    sql = f"INSERT INTO {table} (analysis_type, analysis,image_url) VALUES (%s,%s, %s)"
-    val = (analysis_type, analysis, URL)
+    sql = f"INSERT INTO {table} (email, analysis_type, analysis,image_url) VALUES (%s, %s,%s, %s)"
+    val = (primary_key, analysis_type, analysis, URL)
     accessDatabase(sql, val)
     print("successfully added")
 
     return image, analysis
 
 def upload_graph(education_level):
-    
+    primary_key = getPrimaryKey()
+    print(primary_key)
     image, file_path = accessFilePath()
     URL = upload_to_imgur(file_path)
     graph = ImageDetection.analyze_image_geometry(file_path, "Provide only what type of graph it is.")
     analysis  = ImageDetection.analyze_image_geometry(file_path, "Analyze the graph according to the education level of" + education_level + "within 999 characters.")
     print("acquired variables")
     table = 'history_table'
-    sql = f"INSERT INTO {table} (analysis_type, analysis,image_url) VALUES (%s,%s, %s)"
-    val = (graph, analysis, URL)
+    sql = f"INSERT INTO {table} (email, analysis_type, analysis,image_url) VALUES (%s, %s,%s, %s)"
+    val = (primary_key, graph, analysis, URL)
   
     accessDatabase(sql, val)
 
@@ -70,6 +81,8 @@ def upload_graph(education_level):
 
 
 def upload_equation(education_level):
+    primary_key = getPrimaryKey()
+    print(primary_key)
     image, file_path = accessFilePath()
     URL = upload_to_imgur(file_path)
     analysis_type = ImageDetection.analyze_image_geometry(file_path, "Provide only what kind of equation it is.")
@@ -77,8 +90,8 @@ def upload_equation(education_level):
     print("acquired variables")
     table = 'history_table'
 
-    sql = f"INSERT INTO {table} (analysis_type, analysis,image_url) VALUES (%s,%s, %s)"
-    val = (analysis_type, analysis, URL)
+    sql = f"INSERT INTO {table} (email, analysis_type, analysis,image_url) VALUES (%s, %s,%s, %s)"
+    val = (primary_key, analysis_type, analysis, URL)
     accessDatabase(sql, val)
 
     print("successfully added")
@@ -128,19 +141,38 @@ def accessDatabase(sql,val):
     print("successfully added")
 
 
-def upload_to_imgur(image_path):
-        CLIENT_ID = os.getenv("CLIENT_ID")
-        headers = {'Authorization': f'Client-ID {CLIENT_ID}'}
+def upload_to_imgur(image_path, max_retries=5):
+    CLIENT_ID = os.getenv("CLIENT_ID")
+    headers = {'Authorization': f'Client-ID {CLIENT_ID}'}
+
+    for attempt in range(max_retries):
         with open(image_path, 'rb') as file:
             response = requests.post(
                 'https://api.imgur.com/3/image',
                 headers=headers,
                 files={'image': file}
             )
+
         if response.status_code == 200:
             data = response.json()
             print(data['data']['link'])
-            return data['data']['link']  # This is the Imgur image URL
+            return data['data']['link']
+
+        elif response.status_code == 429:
+            print("Rate limited by Imgur (429). Retrying...")
+
+            retry_after = response.headers.get("Retry-After")
+            if retry_after:
+                sleep_time = int(retry_after)
+            else:
+                sleep_time = 2 ** attempt  # exponential backoff
+
+            print(f"Sleeping for {sleep_time} seconds...")
+            time.sleep(sleep_time)
+
         else:
-            print("Upload failed:", response.text)
+            print(f"Upload failed (status {response.status_code}): {response.text}")
             return None
+
+    print("Max retries exceeded.")
+    return None

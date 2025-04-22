@@ -1,4 +1,4 @@
-from flask import Flask, json, Blueprint, render_template, request, send_from_directory
+from flask import Flask, json, Blueprint, render_template, request, send_from_directory, session, redirect, url_for
 import mysql.connector
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
@@ -17,20 +17,19 @@ from dotenv import load_dotenv
 dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
 load_dotenv(dotenv_path)
 
-MYSQLHOST = os.getenv("MYSQLHOST")
-MYSQLUSER = os.getenv("MYSQLUSER")
-MYSQLPASSWORD = os.getenv("MYSQLPASSWORD")
-MYSQL_DATABASE = os.getenv("MYSQL_DATABASE")
-MYSQLPORT = os.getenv("MYSQLPORT")
-conn = mysql.connector.connect(
-        host=MYSQLHOST,
-        user=MYSQLUSER,
-        password=MYSQLPASSWORD,
-        database=MYSQL_DATABASE,
-        port=MYSQLPORT
-  )
-
-cursor = conn.cursor()
+def get_mysql_connection():
+    try:
+        conn = mysql.connector.connect(
+            host=os.getenv("MYSQLHOST"),
+            user=os.getenv("MYSQLUSER"),
+            password=os.getenv("MYSQLPASSWORD"),
+            database=os.getenv("MYSQL_DATABASE"),
+            port=os.getenv("MYSQLPORT")
+        )
+        return conn
+    except mysql.connector.Error as err:
+        print("MySQL connection error:", err)
+        return None
 
 module_name = "ImageDetection"
 #module_path = "GeoSenseAssist-Project/ImageDetection.py"  # Adjust as needed
@@ -103,3 +102,46 @@ def submit():
     return render_template("submit-quiz.html")
 
 
+@views.route('/')
+def getHistoryData():
+    conn = get_mysql_connection()
+    if conn is None:
+        return "Database connection failed", 500
+
+    cursor = conn.cursor()
+    cursor.execute("SELECT email, created_at, analysis_type, analysis FROM history_table")
+    rows = cursor.fetchall()
+    print(rows)
+    return render_template('history.html', entries=rows)
+
+@views.route('/history')
+def submissionHistory():
+    try:
+        primary_key = session.get("user_email")
+        if primary_key is None:
+            return redirect(url_for('auth.login'))
+
+        conn = get_mysql_connection()
+        if conn is None:
+            return "Database connection failed", 500
+
+        cursor = conn.cursor()
+
+        buttonsFunctionality.setPrimaryKey(primary_key)
+
+        cursor.execute("SELECT created_at, analysis_type, analysis, image_url FROM history_table WHERE email = %s", (primary_key,))
+        rows = cursor.fetchall()
+        rows = [(r[0], r[1], r[2], r[3].strip() if r[3] else None) for r in rows]
+
+        cursor.close()
+        conn.close()
+
+        return render_template("history.html", entries=rows)
+
+    except mysql.connector.Error as err:
+        print("MySQL Error:", err)
+        return "Internal server error", 500
+
+    except Exception as e:
+        print("General error:", e)
+        return "Something went wrong", 500

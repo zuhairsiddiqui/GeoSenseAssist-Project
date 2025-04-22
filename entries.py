@@ -21,7 +21,6 @@ conn = mysql.connector.connect(
 
 cursor = conn.cursor()
 
-# Fetch data from table
 cursor.execute("SELECT * FROM history_table")
 
 # Get all rows
