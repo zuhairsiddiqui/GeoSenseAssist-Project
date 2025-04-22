@@ -1,4 +1,4 @@
-<!DOCTYPE html> <!--https://www.w3schools.com/howto/tryit.asp?filename=tryhow_make_a_website_intro-->
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,9 +16,6 @@
             Invalid email or password.
         </p>
         
-        
-        
-
         <form action="/login" method="POST">
             <label for="email">
                 <span>Email:</span>
@@ -35,14 +32,14 @@
                 placeholder="Enter your Password" required>
 
             <div class="wrap">
-                <button type="submit">
+                <button type="submit" class="btn-3">
                     Submit
                 </button>
             </div>
         </form>
         
         <p>Not registered?
-            <a href="/signup" style="text-decoration: none;">
+            <a href="/signup" style="text-decoration: none;" class="text-animate">
                 Signup Now
             </a>
         </p>
@@ -122,8 +119,56 @@
         justify-content: center;
         align-items: center;
     }
-    </style>
+    
+    /* Added btn-3 animation class */
+    .btn-3 {
+        letter-spacing: 0.05rem;
+        position: relative;
+        overflow: hidden;
+        transition: 0.3s ease-in-out;
+        border-radius: 0.3rem;
+        z-index: 1;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    }
+    
+    .btn-3:hover {
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+        transform: scale(0.95);
+    }
+    
+    button.btn-3:hover {
+        background-color: #008000;
+    }
+    
+    /* Text animation for signup link */
+    .text-animate {
+        color: #1618b7;
+        font-weight: bold;
+        position: relative;
+        transition: all 0.3s ease;
+        letter-spacing: 0.05rem;
+    }
+    
+    .text-animate:hover {
+        color: #008000;
+        letter-spacing: 0.1rem;
+        transform: scale(1.05);
+    }
+    
+    .text-animate::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #008000;
+        transition: width 0.3s ease;
+    }
+    
+    .text-animate:hover::after {
+        width: 100%;
+    }
+</style>
 
 </html>
-
-
