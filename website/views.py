@@ -17,20 +17,19 @@ from dotenv import load_dotenv
 dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
 load_dotenv(dotenv_path)
 
-MYSQLHOST = os.getenv("MYSQLHOST")
-MYSQLUSER = os.getenv("MYSQLUSER")
-MYSQLPASSWORD = os.getenv("MYSQLPASSWORD")
-MYSQL_DATABASE = os.getenv("MYSQL_DATABASE")
-MYSQLPORT = os.getenv("MYSQLPORT")
-conn = mysql.connector.connect(
-        host=MYSQLHOST,
-        user=MYSQLUSER,
-        password=MYSQLPASSWORD,
-        database=MYSQL_DATABASE,
-        port=MYSQLPORT
-  )
-
-cursor = conn.cursor()
+def get_mysql_connection():
+    try:
+        conn = mysql.connector.connect(
+            host=os.getenv("MYSQLHOST"),
+            user=os.getenv("MYSQLUSER"),
+            password=os.getenv("MYSQLPASSWORD"),
+            database=os.getenv("MYSQL_DATABASE"),
+            port=os.getenv("MYSQLPORT")
+        )
+        return conn
+    except mysql.connector.Error as err:
+        print("MySQL connection error:", err)
+        return None
 
 module_name = "ImageDetection"
 #module_path = "GeoSenseAssist-Project/ImageDetection.py"  # Adjust as needed
@@ -117,6 +116,12 @@ def submissionHistory():
         if primary_key is None:
             return redirect(url_for('auth.login'))
 
+        conn = get_mysql_connection()
+        if conn is None:
+            return "Database connection failed", 500
+
+        cursor = conn.cursor()
+
         buttonsFunctionality.setPrimaryKey(primary_key)
 
         cursor.execute(
@@ -125,7 +130,6 @@ def submissionHistory():
         )
         rows = cursor.fetchall()
         rows = [(r[0], r[1], r[2], r[3].strip() if r[3] else None) for r in rows]
-
 
         cursor.close()
         conn.close()
