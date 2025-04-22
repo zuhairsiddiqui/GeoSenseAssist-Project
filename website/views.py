@@ -12,7 +12,6 @@ sys.path.append(parent_dir)
 
 
 from dotenv import load_dotenv
-import pygame
 
 dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
 load_dotenv(dotenv_path)
