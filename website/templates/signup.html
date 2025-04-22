@@ -12,7 +12,7 @@
         <h1>GeoSense Assist</h1>
         <h3>Please sign up with your credentials</h3>
 
-        <form action="/signup" method="POST">
+        <form action="/signup" method="POST" onsubmit="return checkPassword(this);">
             <label for="email">
                 <span>Email:</span>
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280 320-200v-80L480-520 160-720v80l320 200Z"/></svg>
@@ -28,7 +28,7 @@
             </label>
             <input type="password" id="password" name="password" 
                 placeholder="Enter your Password"
-                pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&*!?])[A-Za-z\d@#$%^&*!?]{8,}$"
+                pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-]).{8,}$"
                 title="Must be 8+ characters with Upper and Lowercase letters, a number, and a special character" required>
 
             <label for="password">
