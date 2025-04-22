@@ -119,9 +119,15 @@ def submissionHistory():
 
         buttonsFunctionality.setPrimaryKey(primary_key)
 
-        # Ensure connection is alive
-        if not conn.is_connected():
-            conn.reconnect()
+        # Make a fresh connection
+        conn = mysql.connector.connect(
+            host=MYSQLHOST,
+            user=MYSQLUSER,
+            password=MYSQLPASSWORD,
+            database=MYSQL_DATABASE,
+            port=MYSQLPORT,
+            connection_timeout=30
+        )
 
         cursor = conn.cursor()
         cursor.execute(
@@ -129,30 +135,16 @@ def submissionHistory():
             (primary_key,)
         )
         rows = cursor.fetchall()
+
         cursor.close()
+        conn.close()
+
         return render_template("history.html", entries=rows)
 
-    except mysql.connector.errors.OperationalError as e:
-        print("OperationalError: trying to reconnect...", e)
-        try:
-            conn.reconnect()
-            cursor = conn.cursor()
-            cursor.execute(
-                "SELECT created_at, analysis_type, analysis, image_url FROM history_table WHERE email = %s",
-                (primary_key,)
-            )
-            rows = cursor.fetchall()
-            cursor.close()
-            return render_template("history.html", entries=rows)
-        except Exception as retry_error:
-            print("Retry failed:", retry_error)
-            return "Database reconnection failed", 500
-
     except mysql.connector.Error as err:
-        print("Database error:", err)
+        print("MySQL Error:", err)
         return "Internal server error", 500
 
     except Exception as e:
         print("General error:", e)
         return "Something went wrong", 500
-
