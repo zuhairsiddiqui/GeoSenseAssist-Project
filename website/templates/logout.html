@@ -7,92 +7,115 @@
     <title>Logout Confirmation</title>
     <meta http-equiv="refresh" content="5;url=/"> <!--https://stackoverflow.com/questions/5411538/how-to-redirect-one-html-page-to-another-on-load-->
     <style> /* wait 5s then redirect */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #e3f2fd;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4; /* match homepage */
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
 
-        .header-bar { /* How to make Login/Signup on the same lvl to the right: https://www.w3schools.com/css/css3_flexbox.asp */
-            width: 100%;
-            background-color: blue;
-            color: white;
-            text-align: left;
-            padding: 20px 40px;
-            font-size: 24px;
-            font-weight: bold;
-            display: flex;
-            justify-content: flex-start;
-            align-content: center;
-            align-items: center;
-            box-sizing: border-box;
-        }
+    /* Header bar styling */
+    .header-bar {
+        width: 100%;
+        background-color: blue;
+        color: white;
+        padding: 20px 40px;
+        font-size: 28px; 
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-sizing: border-box;
+    }
 
-        .header-buttons {
-            display: flex;
-            gap: 10px;
-        }
 
-        .header-button {
-            background-color: white;
-            color: blue;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            min-width: 80px;
-        }
+    /* Brand name inside header */
+    .header-name {
+        font-size: 30px;
+        color: white;
+        text-decoration: none;
+    }
 
-        .header-button:hover {
-            background-color: #ddd;
-        }
 
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
-            margin-top: 80px; /* Pushes below header */
-        }
+    /* Container for Log In / Sign Up buttons */
+    .header-buttons {
+        display: flex;
+        gap: 12px;
+    }
 
-        h1 {
-            color: #1976d2;
-            margin-bottom: 10px;
-        }
+    /* Header buttons style */
+    .header-button {
+        background-color: white;
+        color: blue;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 6px;
+        font-size: 22px;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: none;
+        text-align: center;
+        min-width: 100px;
 
-        p {
-            color: #333;
-            font-size: 18px;
-        }
+        /* Animation */
+        letter-spacing: 0.05rem;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease-in-out;
+        z-index: 1;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
-        .small-text {
-            color: #666;
-            font-size: 14px;
-            margin-top: 10px;
-        }
+    .header-button:hover {
+        transform: scale(0.95);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        background-color: #008000;
+        color: white;
+    }
+
+    /* Logout confirmation box */
+    .container {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 400px;
+        margin: 100px auto;
+    }
+
+    /* Text styles */
+    h1 {
+        color: #1976d2;
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: #333;
+        font-size: 18px;
+    }
+
+    .small-text {
+        color: #666;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
 
     </style>
 </head>
 
 <body>
     <div class="header-bar">
-        GeoSense Assist
+        <a href="/" class="header-name" style="text-decoration: none; color: white;">Geosense Assist</a>
         <div class="header-buttons">
-            <a href="/login" class="header-button">Log In</a>
-            <a href="/signup" class="header-button">Sign Up</a>
+            {% if session.get("user_email") %}
+                <a href="/logout" class="header-button">Log Out</a>
+            {% else %}
+                <a href="/login" class="header-button">Log In</a>
+                <a href="/signup" class="header-button">Sign Up</a>
+            {% endif %}
         </div>
     </div>
 

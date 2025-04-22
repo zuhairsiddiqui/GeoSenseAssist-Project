@@ -125,8 +125,12 @@
     <div class="header-bar">
         <a href="/" class="header-name" style="text-decoration: none; color: white;">Geosense Assist</a>
         <div class="header-buttons">
-            <a href="/login" class="header-button">Log In</a>
-            <a href="/signup" class="header-button">Sign Up</a>
+            {% if session.get("user_email") %} <!-- if user is logged in, display logout instead of signup/login -->
+                <a href="/logout" class="header-button">Log Out</a>
+            {% else %}
+                <a href="/login" class="header-button">Log In</a>
+                <a href="/signup" class="header-button">Sign Up</a>
+            {% endif %}
         </div>
     </div>
 
@@ -136,6 +140,7 @@
     <p>Analysis Result: {{ result }}</p>
 
     <h2>Click the button to hear analysis</h2>
+    <h3>Press P to Pause/Play and R to Restart the Audio</h3>
     <button type="submit" onclick="playTTS()">Audio Analysis</button>
 
     <script type="">

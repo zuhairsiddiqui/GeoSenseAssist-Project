@@ -51,7 +51,7 @@ def login(): # https://opentechschool.github.io/python-flask/extras/sessions.htm
 
 @auth.route('/logout')
 def logout():
-    session.pop("user_email", None)
+    session.clear()
     return redirect(url_for("auth.login"))
 
 @auth.route('/signup', methods=['GET', 'POST'])

@@ -180,11 +180,14 @@
     <div class="header-bar">
         <a href="/" class="header-name" style="text-decoration: none; color: white;">Geosense Assist</a>
         <div class="header-buttons">
-            <a href="/login" class="header-button">Log In</a>
-            <a href="/signup" class="header-button">Sign Up</a>
+            {% if session.get("user_email") %} <!-- if user is logged in, display logout instead of signup/login -->
+                <a href="/logout" class="header-button">Log Out</a>
+            {% else %}
+                <a href="/login" class="header-button">Log In</a>
+                <a href="/signup" class="header-button">Sign Up</a>
+            {% endif %}
         </div>
     </div>
-
     <!-- Voice navigation button -->
     <button id="start-recording" class="custom-button" style="margin: 20px auto;">Voice Navigation</button>
 
