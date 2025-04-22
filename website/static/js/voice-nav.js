@@ -8,7 +8,7 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
     recognition.continuous = true; // Keep listening
     recognition.interimResults = false; // Final results only
 
-    let isCurrentlyListening = false; // Track the actual state of the recognition engine
+    let isCurrentlyListening = false; // Tracks the actual state of the recognition engine
     const SESSION_STORAGE_KEY = 'voiceNavActive'; // Key for session storage
 
     // --- Helper Functions ---
@@ -25,10 +25,10 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
         if (button) {
             if (isActive) {
                 button.textContent = "Stop Voice Navigation";
-                button.style.backgroundColor = "#d9534f"; // Red
+                button.style.backgroundColor = "#d9534f"; 
             } else {
                 button.textContent = "Voice Navigation";
-                button.style.backgroundColor = "blue"; // Blue
+                button.style.backgroundColor = "blue"; 
             }
         }
     }
@@ -43,7 +43,7 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
                 // Initial button update (will be confirmed in onstart)
                  if (button) {
                      button.textContent = "Listening...";
-                     button.style.backgroundColor = "#d9534f"; // Red
+                     button.style.backgroundColor = "#d9534f"; 
                  }
             } catch (error) {
                 console.error("Recognition start failed:", error);
@@ -68,15 +68,25 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
     }
 
     function stopRecognition(button) {
+        let stoppedIntentionally = false; // Flag to check if stop was user-triggered
         if (isCurrentlyListening) {
             recognition.stop(); // This will trigger 'onend' eventually
             console.log('Attempting to stop voice recognition...');
+            stoppedIntentionally = true; // Mark that we initiated the stop
         }
         // Always mark as inactive immediately when stop is requested
         sessionStorage.setItem(SESSION_STORAGE_KEY, 'false');
         isCurrentlyListening = false; // Assume stopped, onend will confirm
         updateButtonState(button, false);
+
+        // Provide feedback to the user for stopping
+        if (stoppedIntentionally) {
+            speak("Exiting voice navigation");
+       }
+   
     }
+
+    
 
 
     // --- DOM Ready ---
@@ -132,16 +142,22 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
 
             // --- Navigation Commands ---
             else if (command.includes('log in') || command.includes('login')) {
+                speak("Navigating to login page."); // Feedback for navigation
                 window.location.href = '/login';
             } else if (command.includes('sign up')) {
+                 speak("Navigating to sign up page."); // Feedback for navigation
                 window.location.href = '/signup';
             } else if (command.includes('home') || command.includes('return') || command.includes('main page')) {
+                 speak("Navigating to home page."); // Feedback for navigation
                 window.location.href = '/';
             } else if (command.includes('submission history') || command.includes('history')) {
+                 speak("Navigating to submission history."); // Feedback for navigation
                 window.location.href = '/history';
             } else if (command.includes('generate quiz') || command.includes('quiz')) {
+                 speak("Navigating to quiz generator."); // Feedback for navigation
                 window.location.href = '/quiz';
             }
+
 
             // --- File Upload Commands ---
             else if (command.includes('analyze shapes') || command.includes('analyse shapes')) {
@@ -158,8 +174,10 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
             // --- Command Not Recognized ---
             else {
                 // Optional: Provide feedback only if desired, might be annoying
+                speak("Command not found");
                 // speak('Command not recognized');
                 console.log('Command not recognized.');
+
             }
         };
 
@@ -170,7 +188,7 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
              if (sessionStorage.getItem(SESSION_STORAGE_KEY) === 'true') {
                  updateButtonState(startButton, true);
              } else {
-                 // If it started unexpectedly (e.g., browser quirk), stop it.
+                 // If it started unexpectedly, stop it.
                  console.warn("Recognition started but session state is inactive. Stopping.");
                  stopRecognition(startButton);
              }
@@ -187,7 +205,7 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
                 console.log('Session state is active, attempting to restart recognition after a short delay...');
                 // Use a delay to prevent hammering the API if it fails immediately
                 setTimeout(() => {
-                    // Double-check the session state *again* before restarting
+                    // Double check the session state again before restarting
                     if (sessionStorage.getItem(SESSION_STORAGE_KEY) === 'true') {
                         startRecognition(startButton);
                     } else {
