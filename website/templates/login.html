@@ -12,6 +12,13 @@
         <h1>GeoSense Assist</h1>
         <h3>Please sign in with your credentials</h3>
 
+        <p id="error-msg" style="color: red; display: none;">
+            Invalid email or password.
+        </p>
+        
+        
+        
+
         <form action="/login" method="POST">
             <label for="email">
                 <span>Email:</span>
@@ -40,6 +47,14 @@
             </a>
         </p>
     </div>
+    <script type="">
+        window.onload = function () {
+            var shouldShowError = {{ 'true' if login_failed else 'false' }};
+            if (shouldShowError) {
+                document.getElementById("error-msg").style.display = "block";
+            }
+        }
+    </script>
 </body>
 
 <style> /*style.css*/

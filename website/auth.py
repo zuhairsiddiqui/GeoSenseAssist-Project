@@ -1,5 +1,6 @@
-from flask import Blueprint, request, render_template, redirect, url_for
+from flask import Blueprint, request, render_template, redirect, url_for, session # session keeps track of the user thru different pages. ex: from signup to home, to analyze, etc.
 from werkzeug.security import generate_password_hash # for hashing passwords: https://werkzeug.palletsprojects.com/en/stable/utils/
+from werkzeug.security import check_password_hash # for matching hash
 import mysql.connector
 import os
 from dotenv import load_dotenv
@@ -16,13 +17,42 @@ MYSQLPORT = os.getenv("MYSQLPORT")
 
 auth = Blueprint('auth', __name__)
 
-@auth.route('/login')
-def login():
-    return "<p>Login Page</p>"
+@auth.route('/login', methods=['GET', 'POST']) 
+def login(): # https://opentechschool.github.io/python-flask/extras/sessions.html 
+    if request.method == 'POST':
+        # Get form data when user presses submit
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        # Connect to MySQL
+        conn = mysql.connector.connect(
+            host=MYSQLHOST,
+            user=MYSQLUSER,
+            password=MYSQLPASSWORD,
+            database=MYSQL_DATABASE,
+            port=MYSQLPORT
+        )
+        cursor = conn.cursor()
+
+        # Check if email exists
+        cursor.execute("SELECT password FROM users_table WHERE email = %s", (email,))
+        user = cursor.fetchone()
+        cursor.close()
+        conn.close()
+
+        if user and check_password_hash(user[0], password):
+            # Set session or redirect
+            session['user_email'] = email  # track who is logged in
+            return redirect(url_for('views.home'))
+        else:
+            return render_template("login.html", login_failed=True)
+
+    return render_template("login.html")
 
 @auth.route('/logout')
 def logout():
-    return "<p>Logout Page</p>"
+    session.pop("user_email", None)
+    return redirect(url_for("auth.login"))
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():

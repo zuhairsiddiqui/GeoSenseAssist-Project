@@ -1,4 +1,4 @@
-import cv2
+import cv2 # type: ignore
 import os
 
 # Open the camera (0 is usually the default webcam)
