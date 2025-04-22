@@ -112,10 +112,17 @@ def getHistoryData():
 
 @views.route('/history')
 def submissionHistory():
-  primary_key = session.get("user_email")
-  if primary_key is None:
-        return redirect(url_for('auth.login'))
-  buttonsFunctionality.setPrimaryKey(primary_key)
-  cursor.execute("SELECT created_at, analysis_type, analysis, image_url FROM history_table WHERE email = %s", (primary_key,))
-  rows = cursor.fetchall()
-  return render_template("history.html", entries=rows)
+  try:
+    primary_key = session.get("user_email")
+    if primary_key is None:
+          return redirect(url_for('auth.login'))
+    buttonsFunctionality.setPrimaryKey(primary_key)
+    cursor.execute("SELECT created_at, analysis_type, analysis, image_url FROM history_table WHERE email = %s", (primary_key,))
+    rows = cursor.fetchall()
+    return render_template("history.html", entries=rows)
+  except mysql.connector.Error as err:
+        print("Database error:", err)
+        return "Internal server error", 500
+  except Exception as e:
+        print("General error:", e)
+        return "Something went wrong", 500
