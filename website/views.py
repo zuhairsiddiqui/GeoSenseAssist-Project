@@ -87,8 +87,22 @@ def upload_equation():
   equation, analysis = buttonsFunctionality.upload_equation(education_level)
   return render_template('equations.html', filename=equation, result=analysis)
 
-@views.route('/quiz')
-def quiz():
+@views.route('/quiz', methods=['GET', 'POST'])
+def quiz_page():
+    if request.method == 'POST':
+        file = request.files['fileUpload']
+        if file:
+            filename = secure_filename(file.filename)
+            full_path = os.path.join(upload_dir, filename)
+            file.save(full_path)
+
+            quiz_text = qenerateQuiz.generate_quiz_from_image(full_path)
+            return render_template("quiz.html", quiz_text=quiz_text)
+
     return render_template("quiz.html")
+
+@views.route('/submit')
+def submit():
+    return render_template("submit-quiz.html")
 
 
