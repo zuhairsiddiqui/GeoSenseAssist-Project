@@ -140,19 +140,38 @@ def accessDatabase(sql,val):
     print("successfully added")
 
 
-def upload_to_imgur(image_path):
-        CLIENT_ID = os.getenv("CLIENT_ID")
-        headers = {'Authorization': f'Client-ID {CLIENT_ID}'}
+def upload_to_imgur(image_path, max_retries=5):
+    CLIENT_ID = os.getenv("CLIENT_ID")
+    headers = {'Authorization': f'Client-ID {CLIENT_ID}'}
+
+    for attempt in range(max_retries):
         with open(image_path, 'rb') as file:
             response = requests.post(
                 'https://api.imgur.com/3/image',
                 headers=headers,
                 files={'image': file}
             )
+
         if response.status_code == 200:
             data = response.json()
             print(data['data']['link'])
-            return data['data']['link']  # This is the Imgur image URL
+            return data['data']['link']
+
+        elif response.status_code == 429:
+            print("Rate limited by Imgur (429). Retrying...")
+
+            retry_after = response.headers.get("Retry-After")
+            if retry_after:
+                sleep_time = int(retry_after)
+            else:
+                sleep_time = 2 ** attempt  # exponential backoff
+
+            print(f"Sleeping for {sleep_time} seconds...")
+            time.sleep(sleep_time)
+
         else:
-            print("Upload failed:", response.text)
+            print(f"Upload failed (status {response.status_code}): {response.text}")
             return None
+
+    print("Max retries exceeded.")
+    return None
