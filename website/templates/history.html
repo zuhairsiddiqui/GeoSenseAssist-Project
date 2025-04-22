@@ -182,7 +182,7 @@
   </style>
 </head>
 <body>
-{% if entries %}
+{% if entries and entries[0][3] != None %}
   <table>
     <tr>
       <th>Date</th>
@@ -192,10 +192,14 @@
     </tr>
     {% for entry in entries %}
     <tr>
-      <td>{{ entry[0] }}</td>
-      <td>{{ entry[1] }}</td>
-      <td>{{ entry[2] }}</td>
-      <td><img src="{{ entry[3].strip() | safe }}" alt="Imgur Image" width="100"> </td>      
+        <td>{{ entry[0] }}</td>
+        <td>{{ entry[1] }}</td>
+        <td>{{ entry[2] }}</td>
+        {% if entry[3] %}
+            <td><img src="{{ entry[3] | safe }}" alt="Imgur Image" width="100"></td>
+        {% else %}
+            No image
+        {% endif %}  
     </tr>
     {% endfor %}
   </table>
