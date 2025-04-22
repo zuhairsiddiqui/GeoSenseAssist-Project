@@ -119,22 +119,13 @@ def submissionHistory():
 
         buttonsFunctionality.setPrimaryKey(primary_key)
 
-        # Make a fresh connection
-        conn = mysql.connector.connect(
-            host=MYSQLHOST,
-            user=MYSQLUSER,
-            password=MYSQLPASSWORD,
-            database=MYSQL_DATABASE,
-            port=MYSQLPORT,
-            connection_timeout=30
-        )
-
-        cursor = conn.cursor()
         cursor.execute(
             "SELECT created_at, analysis_type, analysis, image_url FROM history_table WHERE email = %s",
             (primary_key,)
         )
         rows = cursor.fetchall()
+        rows = [(r[0], r[1], r[2], r[3].strip() if r[3] else None) for r in rows]
+
 
         cursor.close()
         conn.close()
