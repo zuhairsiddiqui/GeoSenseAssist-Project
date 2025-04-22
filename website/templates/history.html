@@ -151,55 +151,106 @@
             {% endif %}
         </div>
     </div>
-    <button id="start-recording" class="custom-button animated-button" style="margin: 20px auto;">Voice Navigation</button>
-    <script type="">
-        const button = document.getElementById('start-recording');
-        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        recognition.lang = 'en-US';
+    <!DOCTYPE html>
+<html>
+<head>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 60%;
+      margin: 20px auto;
+      font-family: Arial, sans-serif;
+    }
 
-        button.addEventListener('click', () => {
-            recognition.start();
-        });
+    th, td {
+      border: 1px solid #999;
+      padding: 10px;
+      text-align: left;
+    }
 
-        recognition.onresult = (event) => {
-            const command = event.results[0][0].transcript.toLowerCase();
-            console.log('Heard:', command);
+    th {
+      background-color: #f2f2f2;
+    }
 
-            if (command.includes('analyze shapes')) {
-                window.location.href = '/analyze-shapes';
-            }
-            else if (command.includes('analyze graphs')) {
-                window.location.href = '/analyze-graphs';
-            }
-            else if (command.includes('analyze equations')) {
-                window.location.href = '/analyze-equations';
-            }
-            else if (command.includes('submission history')) {
-                window.location.href = '/submission-history';
-            }
-            else if (command.includes('generate quiz')) {
-                window.location.href = '/generate-quiz';
-            }
-            else if (command.includes('login')) {
-                window.location.href = '/login';
-            }
-            else if (command.includes('sign up')) {
-                window.location.href = '/signup';
-            }
-            else if (command.includes('home') || command.includes('return')) {
-                window.location.href = '/';
-            }
-            else {
-                const speech = new SpeechSynthesisUtterance('Command not recognized');
-                speechSynthesis.speak(speech);
-                console.log('Command not recognized.');
-            }
-        };
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
 
-        recognition.onstart = () => {
-            console.log('Voice recognition started.');
-        };
+    tr:hover {
+      background-color: #e0f7fa;
+    }
+  </style>
+</head>
+<body>
+{% if entries %}
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Shape/Graph/Equation</th>
+      <th>Analysis</th>
+      <th>Image</th>
+    </tr>
+    {% for entry in entries %}
+    <tr>
+      <td>{{ entry[0] }}</td>
+      <td>{{ entry[1] }}</td>
+      <td>{{ entry[2] }}</td>
+      <td><img src="{{ entry[3].strip() | safe }}" alt="Imgur Image" width="100"> </td>      
+    </tr>
+    {% endfor %}
+  </table>
+{% else %}
+    <p>No entries found.</p>
+{% endif %}
+</body>
+</html>
 
-        recognition.onerror = (event) => {
-            console.error('Error occurred in recognition:', event.error);
-        };
+    <script>
+        
+        function previewImage(input) {
+                const file = input.files[0];
+                if (!file) return;
+
+                const preview = document.getElementById('image-preview');
+                const reader = new FileReader();
+
+                reader.onload = function () {
+                    preview.src = reader.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+
+                // Upload to Imgur
+                const formData = new FormData();
+                formData.append('image', file);
+
+                fetch('https://api.imgur.com/3/image', {
+                    method: 'POST',
+                    headers: {
+                        Authorization: 'Client-ID 5e38dd71a3fedfe',
+                    },
+                    body: formData,
+                })
+                .then(response => {
+                    return response.json().then(data => {
+                        console.log("Full response from Imgur:", data);
+                        return data;
+                    });
+                })
+                .then(data => {
+                    if (!data.success) {
+                        console.error('Imgur upload failed:', data);
+                        return;
+                    }
+
+                    const imgurUrl = data.data.link;
+                    console.log('Image uploaded to Imgur:', imgurUrl);
+
+                })
+                .catch(error => {
+                    console.error('Error uploading image to Imgur:', error);
+                });
+        }
+        
+        
+        

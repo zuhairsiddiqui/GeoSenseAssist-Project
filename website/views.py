@@ -1,4 +1,4 @@
-from flask import Flask, json, Blueprint, render_template, request, send_from_directory
+from flask import Flask, json, Blueprint, render_template, request, send_from_directory, session, redirect, url_for
 import mysql.connector
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
@@ -103,3 +103,19 @@ def submit():
     return render_template("submit-quiz.html")
 
 
+@views.route('/')
+def getHistoryData():
+   cursor.execute("SELECT email, created_at, analysis_type, analysis FROM history_table")
+   rows = cursor.fetchall()
+   print(rows)
+   return render_template('history.html', entries=rows)
+
+@views.route('/history')
+def submissionHistory():
+  primary_key = session.get("user_email")
+  if primary_key is None:
+        return redirect(url_for('auth.login'))
+  buttonsFunctionality.setPrimaryKey(primary_key)
+  cursor.execute("SELECT created_at, analysis_type, analysis, image_url FROM history_table WHERE email = %s", (primary_key,))
+  rows = cursor.fetchall()
+  return render_template("history.html", entries=rows)
