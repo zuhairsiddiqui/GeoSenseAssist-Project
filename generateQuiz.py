@@ -37,8 +37,18 @@ def generate_quiz_from_image(image_path):
     generate a 5-question multiple-choice quiz based solely on the math content in the image.
 
     Each question must be clearly math-related and have 4 answer options labeled A–D.
+    
+    Format the output like this:
 
-    Do not show or mention the correct answers.
+    1. Question text?
+    A. Option A
+    B. Option B
+    C. Option C
+    D. Option D
+
+    (repeat for each question)
+
+    Do not include the answers.
     If the image is not math-related, respond with: "This image is not math-related."
     """
     response = model.generate_content([prompt, img])
