@@ -58,10 +58,6 @@ def home():
 def login():
   return render_template("login.html")
 
-@views.route('/logout')
-def logout():
-  return render_template("logout.html")
-
 @views.route('/uploads/<filename>')
 def uploaded_file(filename):
     uploads_path = os.path.join(os.path.dirname(__file__), '..', 'uploads')
@@ -97,7 +93,7 @@ def quiz_page():
             full_path = os.path.join(upload_dir, filename)
             file.save(full_path)
 
-            quiz_text = qenerateQuiz.generate_quiz_from_image(full_path)
+            quiz_text = generateQuiz.generate_quiz_from_image(full_path)
             return render_template("quiz.html", quiz_text=quiz_text)
 
     return render_template("quiz.html")
