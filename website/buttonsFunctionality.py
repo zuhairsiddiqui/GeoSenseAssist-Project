@@ -9,11 +9,26 @@ import importlib.util
 from dotenv import load_dotenv
 import sys
 import time
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(parent_dir)
 
 dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
 load_dotenv(dotenv_path)
+
+
+cloudinary.config( 
+    cloud_name = os.getenv("CLOUD_NAME"), 
+    api_key = os.getenv("IMAGE_API"), 
+    api_secret = os.getenv("IMAGE_SECRET")
+)
+
+
+
 
  ##Get the username from applying the code from chatgpt onto one of the html files
  ##go through each function and change it to hold the values for the new table
@@ -47,7 +62,7 @@ def upload_shapes(education_level):
     primary_key = getPrimaryKey()
     print(primary_key)
     image, file_path = accessFilePath()
-    URL = upload_to_imgur(file_path)
+    URL = upload_image_to_cloudinary(file_path)
     analysis_type = ImageDetection.analyze_image_geometry(file_path, "Provide what type of analysis it is (Shape, Graph, or Equation) (One Word)")
     analysis  = ImageDetection.analyze_image_geometry(file_path, "Analyze the geometry of the shape according to the education level of" + education_level + "within 999 characters. Keep in mind the user is blind, keep responses to a minimal, only facts.")
 
@@ -65,7 +80,7 @@ def upload_graph(education_level):
     primary_key = getPrimaryKey()
     print(primary_key)
     image, file_path = accessFilePath()
-    URL = upload_to_imgur(file_path)
+    URL = upload_image_to_cloudinary(file_path)
     graph = ImageDetection.analyze_image_geometry(file_path, "Provide what type of analysis it is (Shape, Graph, or Equation) (One Word)")
     analysis  = ImageDetection.analyze_image_geometry(file_path, "Analyze the graph according to the education level of" + education_level + "within 999 characters. Keep in mind the user is blind, keep responses to a minimal, only facts.")
     print("acquired variables")
@@ -84,7 +99,7 @@ def upload_equation(education_level):
     primary_key = getPrimaryKey()
     print(primary_key)
     image, file_path = accessFilePath()
-    URL = upload_to_imgur(file_path)
+    URL = upload_image_to_cloudinary(file_path)
     analysis_type = ImageDetection.analyze_image_geometry(file_path, "Provide what type of analysis it is (Shape, Graph, or Equation) (One Word)")
     analysis = ImageDetection.analyze_image_geometry(file_path, "Analyze the equation according to the education level of" + education_level + "within 999 characters. Keep in mind the user is blind, keep responses to a minimal, only facts.")
     print("acquired variables")
@@ -140,39 +155,11 @@ def accessDatabase(sql,val):
     conn.close()
     print("successfully added")
 
-
-def upload_to_imgur(image_path, max_retries=5):
-    CLIENT_ID = os.getenv("CLIENT_ID")
-    headers = {'Authorization': f'Client-ID {CLIENT_ID}'}
-
-    for attempt in range(max_retries):
-        with open(image_path, 'rb') as file:
-            response = requests.post(
-                'https://api.imgur.com/3/image',
-                headers=headers,
-                files={'image': file}
-            )
-
-        if response.status_code == 200:
-            data = response.json()
-            print(data['data']['link'])
-            return data['data']['link']
-
-        elif response.status_code == 429:
-            print("Rate limited by Imgur (429). Retrying...")
-
-            retry_after = response.headers.get("Retry-After")
-            if retry_after:
-                sleep_time = int(retry_after)
-            else:
-                sleep_time = 2 ** attempt  # exponential backoff
-
-            print(f"Sleeping for {sleep_time} seconds...")
-            time.sleep(sleep_time)
-
-        else:
-            print(f"Upload failed (status {response.status_code}): {response.text}")
-            return None
-
-    print("Max retries exceeded.")
-    return None
+def upload_image_to_cloudinary(image_path):
+    try:
+        response = cloudinary.uploader.upload(image_path)
+        print(response['secure_url'])
+        return response['secure_url']  # This is the image URL you can use in HTML
+    except Exception as e:
+        print("Upload failed:", e)
+        return None

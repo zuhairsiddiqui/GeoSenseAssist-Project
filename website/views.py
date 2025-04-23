@@ -129,7 +129,7 @@ def submissionHistory():
 
         buttonsFunctionality.setPrimaryKey(primary_key)
 
-        cursor.execute("SELECT created_at, analysis_type, analysis, image_url FROM history_table WHERE email = %s", (primary_key,))
+        cursor.execute("SELECT created_at, analysis_type, analysis, image_url FROM history_table WHERE email = %s ORDER BY created_at DESC LIMIT 5", (primary_key,))
         rows = cursor.fetchall()
         rows = [(r[0], r[1], r[2], r[3].strip() if r[3] else None) for r in rows]
 
