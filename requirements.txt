@@ -6,7 +6,6 @@ pillow
 werkzeug
 google-generativeai
 pytest
-time
 cloudinary
 cloudinary.uploader
 cloudinary.api
