@@ -163,11 +163,29 @@
         </form>
 
         {% if quiz_text %}
-        <div class="quiz-container">
-            <h2>Generated Quiz:</h2>
-            <pre>{{ quiz_text }}</pre>
-            <a href="{{ url_for('views.submit') }}" class="submit-button">Submit Quiz</a>
-        </div>
+            <form method="POST" action="/submit">
+                <div class="quiz-container">
+                    <h2>Generated Quiz:</h2>
+                    {% set question_num = 0 %}
+                    {% for line in quiz_text.split('\n') %}
+                        {% if line and not line.startswith(('A.', 'B.', 'C.', 'D.')) and line[0].isdigit() %}
+                            <div class="question-container">
+                                <p class="question-text">{{ line }}</p>
+                        {% elif line.startswith('A.') %}
+                            <label class="answer-option"><input type="radio" name="q{{ question_num }}" value="A"> {{ line }}</label><br>
+                        {% elif line.startswith('B.') %}
+                            <label class="answer-option"><input type="radio" name="q{{ question_num }}" value="B"> {{ line }}</label><br>
+                        {% elif line.startswith('C.') %}
+                            <label class="answer-option"><input type="radio" name="q{{ question_num }}" value="C"> {{ line }}</label><br>
+                        {% elif line.startswith('D.') %}
+                            <label class="answer-option"><input type="radio" name="q{{ question_num }}" value="D"> {{ line }}</label><br><br>
+                            {% set question_num = question_num + 1 %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <button type="submit" class="submit-button">Submit Quiz</button>
+                </div>
+            </form>
         {% endif %}
 
         <a href="/" class="back-button">Back to Home</a>
