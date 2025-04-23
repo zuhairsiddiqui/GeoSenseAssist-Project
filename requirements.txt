@@ -7,5 +7,3 @@ werkzeug
 google-generativeai
 pytest
 cloudinary
-cloudinary.uploader
-cloudinary.api
