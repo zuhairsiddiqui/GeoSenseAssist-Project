@@ -1,4 +1,5 @@
-<!DOCTYPE html> <!-- https://www.w3schools.com/howto/tryit.asp?filename=tryhow_make_a_website_intro -->
+<!DOCTYPE html>  <!-- Defines the document type and HTML version -->
+<!-- Source/inspiration: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_make_a_website_intro -->
 <html lang="en">
 <head>
     <meta charset="UTF-8"> <!-- Sets character encoding -->
@@ -152,42 +153,17 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        /* Distinct colors for each education level and hover animation */
-        .elementary-button:hover {
+        /* Hover effect for education level buttons */
+        .circle-button:hover {
             transform: scale(0.95);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            background-color: #D81B60; 
-            color: white;
-        }
-        
-        .middle-button:hover {
-            transform: scale(0.95);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            background-color: #1E88E5; 
-            color: white;
-        }
-        
-        .college-button:hover {
-            transform: scale(0.95);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            background-color: #FFC107; 
-            color: black; 
+            background-color: rgba(0, 0, 0, 0.1);
         }
 
-        /* Highlight selected education level with distinct color */
-        .elementary-button.selected {
-            background-color: #D81B60;
+        /* Highlight selected education level */
+        .circle-button.selected {
+            background-color: black;
             color: white;
-        }
-        
-        .middle-button.selected {
-            background-color: #1E88E5;
-            color: white;
-        }
-        
-        .college-button.selected {
-            background-color: #FFC107;
-            color: black;
         }
 
         /* Style for image preview */
@@ -204,15 +180,10 @@
     <div class="header-bar">
         <a href="/" class="header-name" style="text-decoration: none; color: white;">Geosense Assist</a>
         <div class="header-buttons">
-            {% if session.get("user_email") %} <!-- if user is logged in, display logout instead of signup/login -->
-                <a href="/logout" class="header-button">Log Out</a>
-            {% else %}
-                <a href="/login" class="header-button">Log In</a>
-                <a href="/signup" class="header-button">Sign Up</a>
-            {% endif %}
+            <a href="/login" class="header-button">Log In</a>
+            <a href="/signup" class="header-button">Sign Up</a>
         </div>
     </div>
-
 
     <!-- Voice navigation button -->
     <button id="start-recording" class="custom-button" style="margin: 20px auto;">Voice Navigation</button>
@@ -249,12 +220,12 @@
         <a href="/quiz" class="custom-button">Generate Quiz</a>
     </div>
 
-    <!-- Education level selector with updated classes -->
+    <!-- Education level selector -->
     <h2 style="margin-top: 40px;">Select Education Level</h2>
     <div class="education-buttons">
-        <button type="button" class="circle-button elementary-button" onclick="setEducationLevel('elementarylevel', this)">K-5</button>
-        <button type="button" class="circle-button middle-button" onclick="setEducationLevel('middlelevel', this)">6-12</button>
-        <button type="button" class="circle-button college-button" onclick="setEducationLevel('collegelevel', this)">12+</button>
+        <button type="button" class="circle-button" onclick="setEducationLevel('elementarylevel', this)">K-5</button>
+        <button type="button" class="circle-button" onclick="setEducationLevel('middlelevel', this)">6-12</button>
+        <button type="button" class="circle-button" onclick="setEducationLevel('collegelevel', this)">12+</button>
     </div>
 
     <!-- Image preview area -->
@@ -292,7 +263,7 @@
         }
     </script>
 
-    <!-- Added the new voice navigation script HERE -->
-    <script src="{{ url_for('static', filename='js/voice-nav.js') }}"></script>
+       <!-- Added the new voice navigation script HERE -->
+       <script src="{{ url_for('static', filename='js/voice-nav.js') }}"></script>
 </body>
 </html>
