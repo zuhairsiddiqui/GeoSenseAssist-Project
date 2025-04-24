@@ -152,6 +152,7 @@
         </div>
     </div>
 
+
     <div class="container">
         <h1>Quiz Generator</h1>
 
@@ -163,30 +164,38 @@
         </form>
 
         {% if quiz_text %}
-            <form method="POST" action="/submit">
-                <div class="quiz-container">
-                    <h2>Generated Quiz:</h2>
-                    {% set question_num = 0 %}
-                    {% for line in quiz_text.split('\n') %}
-                        {% if line and not line.startswith(('A.', 'B.', 'C.', 'D.')) and line[0].isdigit() %}
-                            <div class="question-container">
-                                <p class="question-text">{{ line }}</p>
-                        {% elif line.startswith('A.') %}
-                            <label class="answer-option"><input type="radio" name="q{{ question_num }}" value="A"> {{ line }}</label><br>
-                        {% elif line.startswith('B.') %}
-                            <label class="answer-option"><input type="radio" name="q{{ question_num }}" value="B"> {{ line }}</label><br>
-                        {% elif line.startswith('C.') %}
-                            <label class="answer-option"><input type="radio" name="q{{ question_num }}" value="C"> {{ line }}</label><br>
-                        {% elif line.startswith('D.') %}
-                            <label class="answer-option"><input type="radio" name="q{{ question_num }}" value="D"> {{ line }}</label><br><br>
-                            {% set question_num = question_num + 1 %}
+        <form method="POST" action="/submit">
+            <div class="quiz-container">
+                <h2>Generated Quiz:</h2>
+        
+                {% set in_question = false %}
+                {% for line in quiz_text.split('\n') %}
+                    {% set line = line.strip() %}
+        
+                    {# Start of a new question #}
+                    {% if line and line[0].isdigit() and '.' in line %} 
+                        {% if in_question %}
                             </div>
                         {% endif %}
-                    {% endfor %}
-                    <button type="submit" class="submit-button">Submit Quiz</button>
-                </div>
-            </form>
+                        <div class="question-container">
+                            <p class="question-text"> {{ line }}</p>
+                        {% set in_question = true %}
+        
+                    {# Option lines (A., B., etc.) #}
+                    {% elif line.startswith('A.') or line.startswith('B.') or line.startswith('C.') or line.startswith('D.') %}
+                        <label>
+                            <input type="radio" name="q{{ loop.index0 }}" value="{{ line[0] }}"> {{ line }}
+                        </label><br>
+                    {% endif %}
+                {% endfor %}
+        
+                </div> {# close last question #}
+        
+                <button type="submit" class="submit-button">Submit Quiz</button>
+            </div>
+        </form>
         {% endif %}
+        
 
         <a href="/" class="back-button">Back to Home</a>
     </div>

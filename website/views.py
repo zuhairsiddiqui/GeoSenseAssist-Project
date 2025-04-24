@@ -97,9 +97,13 @@ def quiz_page():
 
     return render_template("quiz.html")
 
-@views.route('/submit')
+@views.route('/submit', methods=['GET', 'POST'])
 def submit():
-    return render_template("submit-quiz.html")
+    if request.method == 'POST':
+        print(request.form)
+        return render_template("submit-quiz.html")
+
+    return redirect(url_for("views.quiz_page"))  # fallback
 
 
 @views.route('/')
