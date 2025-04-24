@@ -8,7 +8,6 @@ import os
 import importlib.util
 from dotenv import load_dotenv
 import sys
-import time
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
