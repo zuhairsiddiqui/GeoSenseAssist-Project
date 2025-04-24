@@ -227,10 +227,10 @@
     <!-- Education level selector -->
     <h2 style="margin-top: 40px;">Select Education Level</h2>
     <div class="education-buttons">
-        <button type="button" class="circle-button" onclick="setEducationLevel('elementarylevel', this)">K-5</button>
-        <button type="button" class="circle-button" onclick="setEducationLevel('middlelevel', this)">6-12</button>
-        <button type="button" class="circle-button" onclick="setEducationLevel('collegelevel', this)">12+</button>
-    </div>
+    <button type="button" id="edu-btn-elementary" class="circle-button" onclick="setEducationLevel('elementarylevel', this)">K-5</button>
+    <button type="button" id="edu-btn-middle" class="circle-button" onclick="setEducationLevel('middlelevel', this)">6-12</button>
+    <button type="button" id="edu-btn-college" class="circle-button" onclick="setEducationLevel('collegelevel', this)">12+</button>
+</div>
 
     <!-- Image preview area -->
     <img id="image-preview" src="#" alt="Preview Image">

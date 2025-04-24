@@ -1,13 +1,17 @@
 from website import create_app
+from dotenv import load_dotenv
 import os
 import socket
 
-app = create_app()
+load_dotenv()
 # Get the environment variable (default to "development" if not set, so people can run their website locally to check for changes)
 flask_env = os.getenv("FLASK_ENV", "development")
+print("DEBUG: FLASK_ENV =", flask_env)
+
 if flask_env == "deployment":
     # If we are deploying, use the configurations for Heroku
     port = int(os.getenv("PORT", 5000))
+    app = create_app()
 
     if __name__ == '__main__':
         print(f"Website is live at: https://geosenseassist-3f7440326683.herokuapp.com/")
