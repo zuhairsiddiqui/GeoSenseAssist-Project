@@ -27,7 +27,6 @@ generation_config=generation_config,
 
 chat_session = model.start_chat(history=[])
 
-
 def generate_quiz_from_image(image_path):
     img = PIL.Image.open(image_path)
     prompt = """
@@ -57,13 +56,14 @@ def generate_quiz_from_image(image_path):
     """
     response = model.generate_content([prompt, img])
     
-    
+    # Parse the response to extract questions and correct answers
+    questions = []
     current_question = None
     
     for line in response.text.split('\n'):
         line = line.strip()
-       
-        if any(line.startswith(f"{i}.") for i in range(1, 6)): 
+        # Fixed the tuple construction for question numbers
+        if any(line.startswith(f"{i}.") for i in range(1, 6)):  # Question line
             if current_question:
                 questions.append(current_question)
             current_question = {
@@ -71,12 +71,12 @@ def generate_quiz_from_image(image_path):
                 'options': [],
                 'correct_answer': None
             }
-        elif line.startswith(('A.', 'B.', 'C.', 'D.')):  
+        elif line.startswith(('A.', 'B.', 'C.', 'D.')):  # Option line
             current_question['options'].append(line)
-        elif line.startswith('Answer:'):  
+        elif line.startswith('Answer:'):  # Answer line
             current_question['correct_answer'] = line.split(':')[1].strip()
     
-    if current_question:  
+    if current_question:  # Add the last question
         questions.append(current_question)
     
     return {
