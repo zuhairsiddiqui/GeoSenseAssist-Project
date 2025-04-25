@@ -6,6 +6,7 @@ from werkzeug.exceptions import RequestEntityTooLarge
 import os
 import sys
 import importlib.util
+from flask import session
 from . import buttonsFunctionality
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(parent_dir)
@@ -92,18 +93,41 @@ def quiz_page():
             full_path = os.path.join(upload_dir, filename)
             file.save(full_path)
 
-            quiz_text = generateQuiz.generate_quiz_from_image(full_path)
-            return render_template("quiz.html", quiz_text=quiz_text)
+            quiz_data = generateQuiz.generate_quiz_from_image(full_path)
+            session['quiz_data'] = quiz_data
+            return render_template("quiz.html", quiz_text=quiz_data['raw_text'])
 
     return render_template("quiz.html")
 
-@views.route('/submit', methods=['GET', 'POST'])
+@views.route('/submit', methods=['POST'])
 def submit():
     if request.method == 'POST':
-        print(request.form)
-        return render_template("submit-quiz.html")
+        submitted_answers = request.form.to_dict()
+        quiz_data = session.get('quiz_data', {})
+        
+        # Calculate score
+        score = 0
+        results = []
+        
+        for i, question in enumerate(quiz_data.get('questions', []), 1):
+            user_answer = submitted_answers.get(f'q{i}', '').upper()
+            is_correct = user_answer == question['correct_answer']
+            if is_correct:
+                score += 1
+                
+            results.append({
+                'question': question['text'],
+                'user_answer': user_answer,
+                'correct_answer': question['correct_answer'],
+                'is_correct': is_correct
+            })
+        
+        total_questions = len(quiz_data.get('questions', []))
+        percentage = (score / total_questions * 100) if total_questions else 0
+        
+        return render_template("submit-quiz.html", answers=submitted_answers,results=results,score=score,total_questions=total_questions,percentage=percentage)
 
-    return redirect(url_for("views.quiz_page"))  # fallback
+    return redirect(url_for("views.quiz_page"))
 
 
 @views.route('/')
