@@ -94,6 +94,7 @@ def quiz_page():
             file.save(full_path)
 
             quiz_data = generateQuiz.generate_quiz_from_image(full_path)
+            # Store the quiz data in the session
             session['quiz_data'] = quiz_data
             return render_template("quiz.html", quiz_text=quiz_data['raw_text'])
 
