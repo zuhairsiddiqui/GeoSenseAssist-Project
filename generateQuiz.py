@@ -57,14 +57,13 @@ def generate_quiz_from_image(image_path):
     """
     response = model.generate_content([prompt, img])
     
-   
-    questions = []
+    
     current_question = None
     
     for line in response.text.split('\n'):
         line = line.strip()
-        
-        if any(line.startswith(f"{i}.") for i in range(1, 6)):  
+       
+        if any(line.startswith(f"{i}.") for i in range(1, 6)): 
             if current_question:
                 questions.append(current_question)
             current_question = {
@@ -77,10 +76,10 @@ def generate_quiz_from_image(image_path):
         elif line.startswith('Answer:'):  
             current_question['correct_answer'] = line.split(':')[1].strip()
     
-    if current_question: 
+    if current_question:  
         questions.append(current_question)
+    
     return {
         'raw_text': response.text,
         'questions': questions
     }
-
