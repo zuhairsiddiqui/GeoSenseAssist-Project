@@ -67,6 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     paused = false;
                 }
                 break;
+            case 'b':
+                if (current > 0) {
+                    speechSynthesis.cancel(); // stop any ongoing speech
+                    current--;
+                    speakQuestionWithAnswers(current);
+                }
+                break;
         }
     }
 
