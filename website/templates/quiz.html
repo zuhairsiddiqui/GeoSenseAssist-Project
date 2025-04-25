@@ -161,6 +161,7 @@
             <br>
             <img id="uploaded-image" src="#" alt="Uploaded Image">
             <button type="submit" class="custom-button">Generate Quiz</button>
+            <button type="button" class="custom-button" id="read-aloud-btn">Read Aloud</button>
         </form>
 
         {% if quiz_text %}
@@ -216,6 +217,8 @@
             }
         }
     </script>
+
+    <script src="{{ url_for('static', filename='js/quizTTS.js') }}"></script>
     <script src="{{ url_for('static', filename='js/voice-nav.js') }}"></script>
 </body>
 </html>
