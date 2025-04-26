@@ -84,7 +84,7 @@ try:
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- when was the analysis made? so we can delete oldest after we have 5
             analysis_type VARCHAR(255), -- type: graph, shape, or equation
             analysis VARCHAR(1000), -- the general description of the image
-            image_url VARCHAR(1000), -- the url of the image, storing it with imgur so we dont have to waste DB storage
+            image_url VARCHAR(1000), -- the url of the image, storing it with Cloudinary so we dont have to waste DB storage
             -- links it to the other table, delete the history of the user if that user is deleted from the table as well
             FOREIGN KEY (email) REFERENCES users_table(email) ON DELETE CASCADE 
             );

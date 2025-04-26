@@ -179,50 +179,6 @@
                 }
         });
 
-        function previewImage(input) {
-                const file = input.files[0];
-                if (!file) return;
-
-                const preview = document.getElementById('image-preview');
-                const reader = new FileReader();
-
-                reader.onload = function () {
-                    preview.src = reader.result;
-                    preview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-
-                // Upload to Imgur
-                const formData = new FormData();
-                formData.append('image', file);
-
-                fetch('https://api.imgur.com/3/image', {
-                    method: 'POST',
-                    headers: {
-                        Authorization: 'Client-ID 5e38dd71a3fedfe',
-                    },
-                    body: formData,
-                })
-                .then(response => {
-                    return response.json().then(data => {
-                        console.log("Full response from Imgur:", data);
-                        return data;
-                    });
-                })
-                .then(data => {
-                    if (!data.success) {
-                        console.error('Imgur upload failed:', data);
-                        return;
-                    }
-
-                    const imgurUrl = data.data.link;
-                    console.log('Image uploaded to Imgur:', imgurUrl);
-
-                })
-                .catch(error => {
-                    console.error('Error uploading image to Imgur:', error);
-                });
-        }
 
 
 
