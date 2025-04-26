@@ -130,7 +130,11 @@ def quiz_page():
         session['quiz_data'] = quiz_data
 
         user_images = fetch_user_images() if 'user_email' in session else []
-        return render_template("quiz.html", quiz_text=quiz_data['raw_text'], user_images=user_images)
+        print("RAW QUIZ DATA:", quiz_data['raw_text'])
+        quiz_lines = clean_quiz_text(quiz_data['raw_text'])
+        print("CLEANED QUIZ LINES:", quiz_lines)
+        return render_template("quiz.html", quiz_text=quiz_data['raw_text'], quiz_lines=quiz_lines, user_images=user_images)
+
     
     else:
         user_images = fetch_user_images() if 'user_email' in session else []
@@ -146,7 +150,7 @@ def submit():
         score = 0
         results = []
         
-        for i, question in enumerate(quiz_data.get('questions', []), 1):
+        for i, question in enumerate(quiz_data.get('questions', [])):
             user_answer = submitted_answers.get(f'q{i}', '').upper()
             is_correct = user_answer == question['correct_answer']
             if is_correct:
@@ -230,4 +234,26 @@ def fetch_user_images():
         return [row[0] for row in rows if row[0]]
     return []
 
+def clean_quiz_text(quiz_text):
+    # Split smartly so each Question and each Option are separate (this way the quiz doesn't break)
+    lines = []
+    for raw_line in quiz_text.split('\n'):
+        raw_line = raw_line.strip()
+        if raw_line.startswith(('A.', 'B.', 'C.', 'D.')):
+            # Options are sometimes clumped, this will split if its needed
+            parts = raw_line.split(' ')
+            buffer = ''
+            for part in parts:
+                if part in ['A.', 'B.', 'C.', 'D.']:
+                    if buffer:
+                        lines.append(buffer.strip())
+                    buffer = part
+                else:
+                    buffer += ' ' + part
+            if buffer:
+                lines.append(buffer.strip())
+        else:
+            if raw_line:
+                lines.append(raw_line)
+    return lines
 

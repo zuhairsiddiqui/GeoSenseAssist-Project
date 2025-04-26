@@ -213,39 +213,57 @@
         </script>
         
 
-        {% if quiz_text %}
+        {% if quiz_lines %}
         <form method="POST" action="/submit">
             <div class="quiz-container">
                 <h2>Generated Quiz:</h2>
                 <button type="button" class="custom-button" id="read-aloud-btn">Read Aloud</button>
-                {% set in_question = false %}
-                {% for line in quiz_text.split('\n') %}
-                    {% set line = line.strip() %}
+                <p style="font-size: 18px; color: gray; margin-top: 10px;">
+                    Hotkeys: 
+                    <strong>N</strong> - Next, 
+                    <strong>B</strong> - Back, 
+                    <strong>P</strong> - Play/Pause, 
+                    <strong>R</strong> - Restart
+                </p>
         
-                    {# Start of a new question #}
-                    {% if line and line[0].isdigit() and '.' in line %} 
-                        {% if in_question %}
-                            </div>
+                {% set ns = namespace(question_index=0, current_question=-1, in_question=false) %}
+        
+                {% for line in quiz_lines %}
+                    {% set line = line.lstrip() %}
+        
+                    {% if line %}
+                        {% if line[0].isdigit() and line[1] == '.' %}
+                            {# If already in a question, close its div #}
+                            {% if ns.in_question %}
+                                </div> {# Close previous question block #}
+                            {% endif %}
+        
+                            {# Start new question block #}
+                            <div class="question-container">
+                                <p class="question-text">{{ line }}</p>
+                                {% set ns.current_question = ns.question_index %}
+                                {% set ns.question_index = ns.question_index + 1 %}
+                                {% set ns.in_question = true %}
+        
+                        {% elif line.startswith('A.') or line.startswith('B.') or line.startswith('C.') or line.startswith('D.') %}
+                            <label>
+                                <input type="radio" name="q{{ ns.current_question }}" value="{{ line[0] }}"> {{ line }}
+                            </label><br>
                         {% endif %}
-                        <div class="question-container">
-                            <p class="question-text"> {{ line }}</p>
-                        {% set in_question = true %}
-        
-                    {# Option lines (A., B., etc.) #}
-                    {% elif line.startswith('A.') or line.startswith('B.') or line.startswith('C.') or line.startswith('D.') %}
-                        <label>
-                            <input type="radio" name="q{{ loop.index0 }}" value="{{ line[0] }}"> {{ line }}
-                        </label><br>
                     {% endif %}
                 {% endfor %}
         
-                </div> {# close last question #}
+                {# After loop ends, close the last opened div (only if any question was open) #}
+                {% if ns.in_question %}
+                    </div> {# Close the last question block #}
+                {% endif %}
         
                 <button type="submit" class="submit-button">Submit Quiz</button>
             </div>
         </form>
         {% endif %}
         
+              
 
         <a href="/" class="back-button">Back to Home</a>
     </div>
