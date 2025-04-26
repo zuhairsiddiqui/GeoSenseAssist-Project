@@ -87,18 +87,54 @@ def upload_equation():
 @views.route('/quiz', methods=['GET', 'POST'])
 def quiz_page():
     if request.method == 'POST':
-        file = request.files['fileUpload']
-        if file:
-            filename = secure_filename(file.filename)
-            full_path = os.path.join(upload_dir, filename)
-            file.save(full_path)
+        selected_image_url = request.form.get('selected_history_image')
 
-            quiz_data = generateQuiz.generate_quiz_from_image(full_path)
-            # Store the quiz data in the session
-            session['quiz_data'] = quiz_data
-            return render_template("quiz.html", quiz_text=quiz_data['raw_text'])
+        if selected_image_url:
+            if 'user_email' not in session: # IF USER IS NOT LGOGED IN
+                return redirect(url_for('auth.login')) # if user thats not logged in tries to access history, redirect them to login handled by auth.py
+            
+            try:
+                import requests
+                from PIL import Image
+                from io import BytesIO
+                import tempfile
 
-    return render_template("quiz.html")
+                response = requests.get(selected_image_url)
+                if response.status_code != 200:
+                    return "Failed to download selected image.", 400
+                
+                # Save to a temporary file
+                temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".jpg")
+                temp_file.write(response.content)
+                temp_file.close()
+
+                # Now pass temp_file.name to the generate_quiz_from_image
+                quiz_data = generateQuiz.generate_quiz_from_image(temp_file.name)
+            except Exception as e:
+                print("Error downloading image:", str(e))
+                return "Failed to process selected image.", 500
+
+        else:
+            # If no history image selected, fallback to uploaded file
+            file = request.files.get('fileUpload')
+            if file:
+                filename = secure_filename(file.filename)
+                full_path = os.path.join(upload_dir, filename)
+                file.save(full_path)
+
+                quiz_data = generateQuiz.generate_quiz_from_image(full_path)
+            else:
+                return "No file uploaded or selected.", 400
+
+         # Store the quiz data in the session
+        session['quiz_data'] = quiz_data
+
+        user_images = fetch_user_images() if 'user_email' in session else []
+        return render_template("quiz.html", quiz_text=quiz_data['raw_text'], user_images=user_images)
+    
+    else:
+        user_images = fetch_user_images() if 'user_email' in session else []
+        return render_template("quiz.html", user_images=user_images)
 
 @views.route('/submit', methods=['POST'])
 def submit():
@@ -174,3 +210,24 @@ def submissionHistory():
     except Exception as e:
         print("General error:", e)
         return "Something went wrong", 500
+    
+def fetch_user_images():
+    if 'user_email' not in session:
+        return []
+
+    user_email = session['user_email']
+    conn = get_mysql_connection()
+    if conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT image_url FROM history_table WHERE email = %s ORDER BY created_at DESC LIMIT 5",
+            (user_email,)
+        )
+        rows = cursor.fetchall()
+        cursor.close()
+        conn.close()
+
+        return [row[0] for row in rows if row[0]]
+    return []
+
+

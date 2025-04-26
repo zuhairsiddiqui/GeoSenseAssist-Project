@@ -144,11 +144,16 @@
     </style>
 </head>
 <body>
+    <!-- Header section with site title and login/signup -->
     <div class="header-bar">
         <a href="/" class="header-name" style="text-decoration: none; color: white;">Geosense Assist</a>
         <div class="header-buttons">
-            <a href="/login" class="header-button">Log In</a>
-            <a href="/sign-up" class="header-button">Sign Up</a>
+            {% if session.get("user_email") %} <!-- if user is logged in, display logout instead of signup/login -->
+                 <a href="/logout" class="header-button">Log Out</a>
+             {% else %}
+                 <a href="/login" class="header-button">Log In</a>
+                 <a href="/signup" class="header-button">Sign Up</a>
+             {% endif %}
         </div>
     </div>
 
@@ -156,19 +161,63 @@
     <div class="container">
         <h1>Quiz Generator</h1>
 
-        <form action="/quiz" method="POST" enctype="multipart/form-data">
-            <input type="file" name="fileUpload" id="fileUpload" accept=".jpg,.jpeg,.png,.pdf" required onchange="previewImage(this);">
-            <br>
-            <img id="uploaded-image" src="#" alt="Uploaded Image">
-            <button type="submit" class="custom-button">Generate Quiz</button>
-            <button type="button" class="custom-button" id="read-aloud-btn">Read Aloud</button>
+        <form id="quizForm" action="/quiz" method="POST" enctype="multipart/form-data">
+            <h2>Upload a New File:</h2>
+            <input type="file" name="fileUpload" id="fileUpload" accept=".jpg,.jpeg,.png,.pdf" onchange="handleUpload()">
+            <br><br>
+            
+            {% if session.get('user_email') %}
+                <h2>Or Pick From Your Upload History:</h2>
+            {% else %}
+            <h2>
+                Or 
+                <a href="/signup" style="color: blue; font-weight: bold; text-decoration: none;">Sign Up</a> /
+                <a href="/login" style="color: blue; font-weight: bold; text-decoration: none;">Log In</a> 
+                to Pick From Your Upload History:
+              </h2>
+              
+            {% endif %}
+
+            <div class="image-grid" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 20px;">
+                {% for img in user_images %}
+                    <img src="{{ img }}" alt="Uploaded Image" onclick="selectHistoryImage('{{ img }}')" style="width: 150px; cursor: pointer; border: 3px solid transparent; border-radius: 8px;">
+                {% endfor %}
+            </div>
+        
+            <!-- Hidden input to store selected history image (this will hide the Select File Button)-->
+            <input type="hidden" name="selected_history_image" id="selected_history_image"> 
         </form>
+        
+        <script>
+        function handleUpload() {
+            // Reset Selection
+            document.getElementById('selected_history_image').value = '';
+            // Auto-submit if user selects a file (once a file is uploaded on file explorer, automatically send it to the backend)
+            document.getElementById('quizForm').submit();
+        }
+        
+        function selectHistoryImage(imageUrl) {
+            // Reset Selection
+            document.getElementById('fileUpload').value = '';
+            // Save selected history image in hidden input
+            document.getElementById('selected_history_image').value = imageUrl;
+        
+            // Highlight selected image (to show what was picked)
+            const imgs = document.querySelectorAll('.image-grid img');
+            imgs.forEach(img => img.style.border = '3px solid transparent');
+            event.target.style.border = '3px solid blue';
+        
+            // Auto-submit the form so the user doesn't have to press a second button
+            document.getElementById('quizForm').submit();
+        }
+        </script>
+        
 
         {% if quiz_text %}
         <form method="POST" action="/submit">
             <div class="quiz-container">
                 <h2>Generated Quiz:</h2>
-        
+                <button type="button" class="custom-button" id="read-aloud-btn">Read Aloud</button>
                 {% set in_question = false %}
                 {% for line in quiz_text.split('\n') %}
                     {% set line = line.strip() %}
@@ -200,23 +249,6 @@
 
         <a href="/" class="back-button">Back to Home</a>
     </div>
-
-    <script>
-        function previewImage(input) {
-            const image = document.getElementById('uploaded-image');
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    image.src = e.target.result;
-                    image.style.display = 'block'; 
-                }
-                reader.readAsDataURL(input.files[0]); 
-            } else {
-                image.src = '#';
-                image.style.display = 'none';
-            }
-        }
-    </script>
 
     <script src="{{ url_for('static', filename='js/quizTTS.js') }}"></script>
     <script src="{{ url_for('static', filename='js/voice-nav.js') }}"></script>
