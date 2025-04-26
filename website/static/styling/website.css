@@ -1,0 +1,184 @@
+
+/* Basic styling for body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+}
+
+/* Header bar styling */
+.header-bar {
+    width: 100%;
+    background-color: blue;
+    color: white;
+    text-align: left;
+    padding: 20px 40px;
+    font-size: 28px; 
+    font-weight: bold;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* Brand name inside header */
+.header-name {
+    flex-grow: 1;
+    font-size: 30px;  
+}
+
+/* Container for Log In / Sign Up buttons */
+.header-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+/* Styles for the Log In / Sign Up buttons */
+.header-button {
+    background-color: white;
+    color: blue;
+    border: none;
+    padding: 12px 20px; 
+    border-radius: 6px;
+    font-size: 22px; 
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    min-width: 100px;
+
+    /* Animation */
+    letter-spacing: 0.05rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    z-index: 1;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover effect for header buttons */
+.header-button:hover {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    background-color: #008000;
+    color: white;
+}
+
+/* Container for main content buttons */
+.button-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 500px;
+    margin: 100px auto 20px auto;
+    justify-content: center;
+}
+
+/* Generic custom button styling */
+.custom-button {
+    padding: 20px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 22px; 
+    font-weight: bold;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+
+    /* Animation */
+    letter-spacing: 0.05rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    z-index: 1;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    
+
+/* Hover effect for custom buttons */ 
+.custom-button:hover {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    background-color: #008000;
+}
+
+/* Hide file input buttons */
+.file-input {
+    display: none;
+}
+
+/* Container for circular education level buttons */
+.education-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+/* Styling for education level circular buttons */
+.circle-button {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid black;
+    background-color: #FFFFFF;
+    color: black;
+    font-size: 22px;  
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+
+    /* Animation */
+    letter-spacing: 0.05rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    z-index: 1;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover effect for education level buttons with accessible colors */
+.education-buttons .circle-button:nth-of-type(1):hover {
+    background-color: #D81B60; 
+    color: white;
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.education-buttons .circle-button:nth-of-type(2):hover {
+    background-color: #1E88E5; 
+    color: white;
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.education-buttons .circle-button:nth-of-type(3):hover {
+    background-color: #FFC107; 
+    color: black;
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Highlight selected education level */
+.circle-button.selected {
+    background-color: black;
+    color: white;
+}
+
+/* Style for image preview */
+#image-preview {
+    max-width: 500px;
+    margin: 20px auto;
+    display: none;
+}

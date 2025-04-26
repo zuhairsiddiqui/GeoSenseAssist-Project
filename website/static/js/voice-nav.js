@@ -1,8 +1,5 @@
 // static/js/voice-nav.js
 // Voice Navigation Script for GeoSenseAssist
-/* TODO : fix the issue with the file upload buttons not being recognized by the speech recognition engine
-after user commands to education level or signup/login
-*/
 // Ensure the Web Speech API is available
 if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -19,7 +16,6 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
         if ('speechSynthesis' in window) {
             // Cancel any ongoing speech before starting new speech
             // This prevents overlaps if commands come quickly
-            window.speechSynthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(text);
             window.speechSynthesis.speak(utterance);
         } else {
@@ -161,20 +157,35 @@ if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
 
             // --- Navigation Commands ---
             else if (command.includes('log in') || command.includes('login')) {
-                speak("Navigating to login page.");
-                window.location.href = '/login';
+                const utterance = new SpeechSynthesisUtterance("Navigating to login page.");
+                utterance.onend = () => {
+                    window.location.href = '/login';
+                };
+                window.speechSynthesis.speak(utterance);
             } else if (command.includes('sign up')) {
-                 speak("Navigating to sign up page.");
-                window.location.href = '/signup';
+                const utterance = new SpeechSynthesisUtterance("Navigating to sign up page.");
+                utterance.onend = () => {
+                    window.location.href = '/signup';
+                };
+                window.speechSynthesis.speak(utterance);
             } else if (command.includes('home') || command.includes('return') || command.includes('main page')) {
-                 speak("Navigating to home page.");
-                window.location.href = '/';
+                const utterance = new SpeechSynthesisUtterance("Navigating to home page.");
+                utterance.onend = () => {
+                    window.location.href = '/';
+                };
+                window.speechSynthesis.speak(utterance);
             } else if (command.includes('submission history') || command.includes('history')) {
-                 speak("Navigating to submission history.");
-                window.location.href = '/history';
+                const utterance = new SpeechSynthesisUtterance("Navigating to submission history.");
+                utterance.onend = () => {
+                    window.location.href = '/history';
+                };
+                window.speechSynthesis.speak(utterance);
             } else if (command.includes('generate quiz') || command.includes('quiz')) {
-                 speak("Navigating to quiz generator.");
-                window.location.href = '/quiz';
+                const utterance = new SpeechSynthesisUtterance("Navigating to quiz generator.");
+                utterance.onend = () => {
+                    window.location.href = '/quiz';
+                };
+                window.speechSynthesis.speak(utterance);
             }
 
             // --- File Upload Commands ---
